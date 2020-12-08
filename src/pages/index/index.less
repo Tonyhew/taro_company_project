@@ -1,0 +1,301 @@
+.banner {
+  width: 100%;
+  height: 33.333333333333vw;
+  box-sizing: border-box;
+  display: inline-block;
+  position: relative;
+
+  image {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+}
+
+
+.QLink {
+  white-space: nowrap;
+  padding: 30rpx 3%;
+  width: 94%;
+  background: #fff;
+  margin-top: -10rpx;
+
+  .QL_item {
+    display: inline-block;
+    /* min-width: 20%; */
+    min-width: 25%;
+    text-align: center;
+
+    image {
+      width: 90rpx;
+      height: 90rpx;
+      margin: 0 auto;
+      border-radius: 100%;
+    }
+
+    text {
+      display: block;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      color: #532a2a;
+      font-size: 3vw;
+    }
+  }
+}
+
+.popular {
+  background: #fff;
+  margin-top: -10rpx;
+  overflow: hidden;
+  padding: 30rpx 10rpx 10rpx;
+  margin-left: 16rpx;
+  margin-right: 16rpx;
+
+  .content1 {
+    width: 45%;
+    float: left;
+    position: relative;
+    font-size: 30rpx;
+    font-weight: bold;
+
+    view:nth-child(1) {
+      position: absolute;
+      color: #2762BC;
+      top: 26rpx;
+      left: 30rpx;
+    }
+
+    view:nth-child(2) {
+      position: absolute;
+      top: 70rpx;
+      color: #2762BC;
+      text-align: center;
+      left: 25rpx;
+      font-size: 20rpx;
+    }
+
+    image {
+      width: 315rpx;
+      height: 256rpx;
+    }
+  }
+
+  .content2 {
+    float: right;
+    width: 53%;
+    position: relative;
+    margin: 0rpx 4rpx 0rpx 0rpx;
+    font-size: 30rpx;
+    font-weight: bold;
+
+    view:nth-child(1) {
+      position: absolute;
+      color: #2762BC;
+      top: 26rpx;
+      left: 18rpx;
+      font-weight: bold;
+    }
+
+    image {
+      width: 370rpx;
+      height: 132rpx;
+    }
+  }
+
+  .content3 {
+    width: 26%;
+    float: right;
+    position: relative;
+    margin: 10rpx 0rpx 0rpx 2rpx;
+
+    view:nth-child(1) {
+      font-size: 24px !important;
+      position: absolute;
+      color: #2762BC;
+      top: 11rpx;
+      left: 18rpx;
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    image {
+      width: 180rpx;
+      height: 115rpx;
+    }
+  }
+
+  .content4 {
+    width: 26%;
+    float: right;
+    position: relative;
+    margin: 10rpx 10rpx 10rpx 0rpx;
+
+    view:nth-child(1) {
+      font-size: 24px !important;
+      position: absolute;
+      color: #2762BC;
+      top: 11rpx;
+      left: 18rpx;
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    image {
+      width: 180rpx;
+      height: 115rpx;
+    }
+  }
+}
+
+.recommend {
+  position: relative;
+  background: #fff;
+  margin-top: 10rpx;
+  overflow: hidden;
+  padding: 30rpx 10rpx 30rpx;
+  margin-left: 16rpx;
+  margin-right: 16rpx;
+
+  .name1 {
+    position: absolute;
+    background-image: url(https://applets.seouleaguer.com/images/2020/09/icon_01.png);
+    background-size: 100% 100%;
+    height: 40rpx;
+    width: 120rpx;
+    top: 46rpx;
+
+    .jinri {
+      color: #fff;
+      font-size: 20rpx;
+      top: 5rpx;
+      left: 18rpx;
+      position: absolute;
+    }
+  }
+
+  .content {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    height: 406rpx;
+    width: 100%;
+  }
+}
+
+.limitedTime {
+  background: #fff;
+  margin-top: 20rpx;
+  overflow: hidden;
+  padding: 30rpx 10rpx 30rpx;
+  position: relative;
+  margin-left: 16rpx;
+  margin-right: 16rpx;
+
+  .name {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0rpx;
+  }
+
+  .item_btn {
+    display: flex;
+  }
+
+  .flash_r {
+    float: right;
+    top: 0rpx;
+    right: 10rpx;
+    line-height: 110rpx;
+    background-size: 100% 100%;
+    position: absolute;
+    width: 64%;
+    z-index: 100;
+
+    .times {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex: 1;
+      font-size: 2.5vw;
+      /* right: -14rpx; */
+      position: relative;
+      .time_box {
+        width: 60rpx;
+        height: 40rpx;
+        text-align: center;
+        line-height: 40rpx;
+        background: #2762BC;
+        border-radius: 10rpx;
+        margin: 0 10rpx;
+        color: #FFFFFF;
+      }
+    }
+  }
+  .henggang {
+    top: 93rpx;
+    position: absolute;
+    background-color: #025CBB;
+    border-radius: 15rpx;
+    height: 30rpx;
+    z-index: 99;
+    width: 97.5%;
+  }
+  .timeSwiper .commodity {
+    margin: 20rpx auto;
+    .time {
+      display: flex;
+      background: #fff;
+      box-sizing: border-box;
+      border-radius: 10rpx;
+      padding: 20rpx 10rpx 20rpx;
+      box-shadow: 8rpx 8rpx 16rpx #D2D2D2;
+      width: 99%;
+      .item_content {
+        flex: 1;
+        position: relative;
+        margin-left: 20rpx;
+        .title {
+          font-size: 3.5vw;
+          display: block;
+          padding: 0%;
+        }
+        .condition {
+          border-radius: 20rpx;
+          font-size: 3vw;
+          text-align: center;
+          width: 100rpx;
+          line-height: 5vw;
+          margin-top: 25rpx;
+        }
+        .item_btn {
+          color: #999;
+          font-size: 3vw;
+          line-height: 5vw;
+          margin-top: 10rpx;
+        }
+        .item_btn>view:nth-child(1) {
+          flex: 1;
+          color: #E7455A;
+        }
+        .item_btn>view:nth-child(2) {
+          flex: 1.5;
+          text-decoration: line-through;
+          color: #4A4A4A;
+          padding: 0rpx 5rpx 0rpx;
+        }
+        .item_btn>view:nth-child(3) {
+          color: #fff;
+          height: 40rpx;
+          width: 100rpx;
+          border-radius: 40rpx;
+          text-align: center;
+        }
+      }
+    }
+    image {
+      width: 200rpx;
+      height: 200rpx;
+    }
+  }
+}
