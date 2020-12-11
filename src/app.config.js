@@ -4,7 +4,8 @@ export default {
     'pages/project/project',
     'pages/scores/scores',
     'pages/mine/mine',
-    'pages/service/detail'
+    'pages/service/detail',
+    'pages/blank/blank'
   ],
   window: {
     backgroundTextStyle: 'light',

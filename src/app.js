@@ -1,6 +1,8 @@
-import { Component } from 'react'
-import Taro from '@tarojs/taro'
-import './app.less'
+import { Component } from 'react';
+import Taro, { setStorageSync } from '@tarojs/taro';
+import url from '../src/config/api'
+import { set as setGlobalData, get as getGlobalData } from '../src/config/global_data'
+import './app.less';
 
 class App extends Component {
 
@@ -11,7 +13,57 @@ class App extends Component {
       color: '#858585',
       selectedColor: '#347be9',
       borderStyle: 'white'
+    });
+
+    setGlobalData('userInfo', null)
+
+    Taro.login({
+      success: (res) => {
+        if(res.code) {
+          Taro.request({
+            method: 'GET',
+            url: url + '/wechat/user/login',
+            data: {
+              code: res.code,
+              activityId: 'mining'
+            },
+            header: {//接口返回的数据类型，可以直接解析数据
+              'Content-Type': 'application/json'
+            },
+          }).then(res => {
+            console.log(res)
+            setStorageSync('openid', res.data.data.account.openId)
+            setGlobalData('openid', res.data.data.account.openId)
+          })
+        } else {
+          console.log('登录失败' + res.errMsg)
+        }
+      }
     })
+
+    Taro.getSetting({
+      success: (res) => {
+        console.log(res)
+      }
+    })
+    
+    Taro.request({
+      url: url + '/Recharge/selectRecharge',
+      data: {
+        xkey: "card"
+      },
+      method: "POST",
+      header: { //接口返回的数据类型，可以直接解析数据
+        'Content-Type': 'application/json'
+      },
+    }).then(res => {
+      Taro.setStorageSync('cardRule', res.data.data)
+      setGlobalData('cardRule', res.data.data)
+      this.setState({
+        cardRule: res.data.data
+      })
+    })
+
   }
 
   componentDidHide () {}

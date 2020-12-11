@@ -36,7 +36,7 @@ export default class LimitedTime extends Component {
             {
               this.props.beautyProjectList.map((beautyList, index) => {
                 return (
-                  <Navigator class="time" onClick={this.handleItemNavigator.bind(this, beautyList.id)} key={index}>
+                  <Navigator url class="time" onClick={this.handleItemNavigator.bind(this, beautyList.id)} key={index}>
                     <Image src={beautyList.coverImage}></Image>
                     <View class="item_content">
                       <View class="title" style='font-size:3.5vw;'>{beautyList.name}</View>

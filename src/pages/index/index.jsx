@@ -9,7 +9,7 @@ import LimitedTime from '../../components/index/LimitedTime'
 import api from '../../config/api';
 import './index.less';
 
-
+var dd;
 export default class Index extends Component {
 
   state = {
@@ -24,6 +24,20 @@ export default class Index extends Component {
     listTime: {},
     displayHeight: 0,
     beautyProjectList: [],
+  }
+
+  constructor(props) {
+    super(props)
+    var that = this
+    dd = setInterval(function () {
+      var a = that.state.listTime
+      1 == a.flashStatus && (0 < a.second ? a.second = a.second - 1 : 0 < a.min ? (a.min = a.min - 1,
+        a.second = 59) : 0 < a.hour ? (a.hour = a.hour - 1, a.min = 59, a.second = 59) : 0 < a.day ? (a.day = a.day - 1,
+          a.hour = 23, a.min = 59, a.second = 59) : (a.flashStatus = 2, clearInterval(dd)),
+        that.setState({
+          listTime: a
+        }));
+    }, 1e3);
   }
 
   componentDidShow() {
@@ -143,20 +157,16 @@ export default class Index extends Component {
         beautyProjectList: res.data.data
       })
 
-      console.log(this.state.beautyProjectList)
-    })
-    
-    var that = this
-    var dd = setInterval(function () {
-      var a = that.state.listTime
-      1 == a.flashStatus && (0 < a.second ? a.second = a.second - 1 : 0 < a.min ? (a.min = a.min - 1,
-        a.second = 59) : 0 < a.hour ? (a.hour = a.hour - 1, a.min = 59, a.second = 59) : 0 < a.day ? (a.day = a.day - 1,
-          a.hour = 23, a.min = 59, a.second = 59) : (a.flashStatus = 2, clearInterval(dd)),
-        that.setState({
-          listTime: a
-        }));
-    }, 1e3);
 
+    })
+
+  }
+
+
+
+
+  componentWillUnmount() {
+    clearInterval(dd)
   }
 
 

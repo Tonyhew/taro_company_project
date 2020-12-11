@@ -1,13 +1,28 @@
 import React, { Component } from 'react'
 import Taro from '@tarojs/taro'
-import { View, Image, Swiper, SwiperItem, Text, Button } from '@tarojs/components'
+import { View, Image, Swiper, SwiperItem, Text, Button, Navigator } from '@tarojs/components'
 import url from '../../config/api'
 import { Current } from '@tarojs/taro'
+import theme3_27 from '../../Images/resource/theme3_27.png'
 import './detail.less'
+import relieved from '../../Images/icon/relieved.png'
 
-
-
+var dd;
 class Detail extends Component {
+
+  constructor(props) {
+    super(props)
+    var that = this
+    dd = setInterval(function () {
+      var a = that.state.beautyList;
+      1 == a.flashStatus && (0 < a.second ? a.second = a.second - 1 : 0 < a.min ? (a.min = a.min - 1,
+        a.second = 59) : 0 < a.hour ? (a.hour = a.hour - 1, a.min = 59, a.second = 59) : 0 < a.day ? (a.day = a.day - 1,
+          a.hour = 23, a.min = 59, a.second = 59) : (a.is_flash = -1, clearInterval(dd)),
+        that.setState({
+          beautyList: a
+        }));
+    }, 1e3);
+  }
 
   state = {
     indicatorDots: true,
@@ -61,16 +76,8 @@ class Detail extends Component {
         }
         this.setState({ beautyProjectId: t.data })
         1 == t.data.flashStatus;
-        var that = this
-        var dd = setInterval(function () {
-          var a = that.state.beautyList;
-          1 == a.flashStatus && (0 < a.second ? a.second = a.second - 1 : 0 < a.min ? (a.min = a.min - 1,
-            a.second = 59) : 0 < a.hour ? (a.hour = a.hour - 1, a.min = 59, a.second = 59) : 0 < a.day ? (a.day = a.day - 1,
-              a.hour = 23, a.min = 59, a.second = 59) : (a.is_flash = -1, clearInterval(dd)),
-            that.setState({
-              beautyList: a
-            }));
-        }, 1e3);
+
+
       }
       this.setState({
         banner: t.data.projectBanner,
@@ -80,7 +87,12 @@ class Detail extends Component {
     }).catch((err) => {
       console.log(err)
     })
+  }
 
+
+
+  componentWillUnmount() {
+    clearInterval(dd)
   }
 
   ms = () => {
@@ -103,6 +115,15 @@ class Detail extends Component {
     )
   }
 
+  button = () => {
+    return (
+      <Button class="share" openType="share">
+        <Image src={theme3_27}></Image>
+        <View>分享</View>
+      </Button>
+    )
+  }
+
   render() {
     return (
       <View>
@@ -112,7 +133,7 @@ class Detail extends Component {
             this.state.banner.map((bannerItem, index) => {
               return (
                 <SwiperItem key={index}>
-                  <Image src={bannerItem.imageScr} mode="aspectFit" className="slide-image"></Image>
+                  <Image src={bannerItem.imageScr} mode="aspectFit" className="slide-Image"></Image>
                 </SwiperItem>
               )
             })
@@ -170,14 +191,72 @@ class Detail extends Component {
               <View class="card">V蓝卡</View>
             </View >
             <View class="title">{this.state.beautyList.name}</View>
-            <Button class="share" openType="share">
-              <Image src="/image/resource/theme3_27.png"></Image>
-              <View>分享</View>
-            </Button>
+            {
+              this.state.beautyList.groupStatus == 1 ? this.button() : null
+            }
           </View>
         </View>
 
-      </View>
+        <View class="commodityGuarantee">
+          <Text class="punctuation"></Text>
+          <Text class="guaranteeName">颌面专家</Text>
+          <Text class="punctuation"> </Text>
+          <Text class="guaranteeName">院长面诊</Text>
+          <Text class="punctuation"></Text>
+          <Text class="guaranteeName">纯韩颌面专家团</Text>
+        </View>
+        <View class="guarantee">
+          <Image src={relieved}></Image>
+          <Text class="punctuation"></Text>
+          <Text class="guaranteeName" style="font-weight: bold;">安心购</Text>
+          <Text class="punctuation"></Text>
+          <Text class="guaranteeName">颜值精选</Text>
+          <Text class="punctuation"></Text>
+          <Text class="guaranteeName">安心服务</Text>
+          <Text class="punctuation"></Text>
+          <Text class="guaranteeName">极速审核</Text>
+        </View>
+        <View class="discuss">
+          <View class="discussNumber">
+            <View></View>
+            <View>用户评论</View>
+            {/* <View>{count ? count : 0}人</View> */}
+          </View>
+          <View class="discussDetail">
+            <View class="user">
+              <Image src="{{item.avatar}}"></Image>
+              <View class="name">item.nick </View>
+              {/* <!--星星评价--> */}
+              <View class="comment1-description">
+                <View class="star-pos">
+                  <View class="starsM  {{flag2>=1? '': 'hideStar'}}" bindtap="changeColor11"></View>
+                  <View class="starsM  {{flag2>=2? '': 'hideStar'}}" bindtap="changeColor12"></View>
+                  <View class="starsM  {{flag2>=3? '': 'hideStar'}}" bindtap="changeColor13"></View>
+                  <View class="starsM  {{flag2>=4? '': 'hideStar'}}" bindtap="changeColor14"></View>
+                  <View class="starsM  {{flag2>=5? '': 'hideStar'}}" bindtap="changeColor15"></View>
+                </View>
+              </View>
+            </View>
+            <View class="discussName">【项目】{this.state.beautyList.name}</View>
+            <View class="discussCount {{item.num==1?'textHiding':''}}">item.content</View>
+            <View>全文</View>
+            <View class="Image">
+              <View class="ImageList">
+                <Image src="{{item.imgs[0].pictureUrl}}"></Image>
+              </View>
+              <View class="ImageList">
+                <Image src="{{item.imgs[1].pictureUrl}}"></Image>
+              </View>
+              <View class="ImageList">
+                <Image src="{{item.imgs[2].pictureUrl}}"></Image>
+              </View>
+            </View>
+          </View>
+          <Navigator class="comment" url="../../pages/discuss/index?&id={{beautyProjectId.id}}">
+            <View class="discussList"> 查看更多评价 》</View>
+          </Navigator>
+        </View >
+      </View >
     )
   }
 }

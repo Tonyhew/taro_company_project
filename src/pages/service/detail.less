@@ -74,6 +74,7 @@
       text-decoration: line-through;
       margin-left: 10rpx;
     }
+
     .memberPrice {
       background: #F2F2F2;
       border-radius: 100px;
@@ -81,7 +82,6 @@
       padding: 0 20rpx;
 
       .name {
-        font-family: SourceHanSansCN-Regular;
         font-size: 24rpx;
         color: #D32E44;
         letter-spacing: 0;
@@ -89,7 +89,6 @@
       }
 
       .memberPrices {
-        font-family: SourceHanSansCN-Bold;
         font-size: 28rpx;
         font-weight: bold;
         color: #D32E44;
@@ -98,13 +97,214 @@
         margin-left: 0rpx;
       }
     }
+
     .card {
-      font-family: SourceHanSansCN-Bold;
       font-size: 32rpx;
       font-weight: bold;
       color: #347BE9;
       margin-left: 20rpx;
     }
   }
+}
+
+.share {
+  position: absolute;
+  top: 20rpx;
+  right: 30rpx;
+  width: 50rpx;
+  font-size: 3vw;
+  text-align: center;
+  color: #999999;
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+}
+
+.share::after {
+  content: '';
+  display: none;
+  outline: none;
+  border: none;
+}
+
+.commodityGuarantee {
+  margin-top: 20rpx;
+  height: 104rpx;
+  background: #F2F2F2;
+  text-align: left;
+  line-height: 104rpx;
+
+  .punctuation {
+    display: inline-block;
+    background: #4A4A4A;
+    width: 6rpx;
+    height: 6rpx;
+    border-radius: 50%;
+    margin: 8rpx 20rpx;
+  }
+
+  .guaranteeName {
+    font-size: 26rpx;
+    color: #4A4A4A;
+    margin: 0 auto;
+  }
+}
+
+.guarantee {
+  margin-top: 40rpx;
+  width: 100%;
+  height: 104rpx;
+  background: #F2F2F2;
+  line-height: 104rpx;
+
+  image {
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 10rpx;
+    width: 50rpx;
+    height: 50rpx;
+  }
+
+  .punctuation {
+    display: inline-block;
+    background: #D22C38;
+    width: 6rpx;
+    height: 6rpx;
+    border-radius: 50%;
+    margin: 8rpx 20rpx;
+  }
+
+  .guaranteeName {
+    font-size: 30rpx;
+    color: #D22C38;
+    margin: 0 auto;
+  }
+}
+
+.discuss .discussNumber {
+  display: flex;
+  padding-top: 36rpx;
+
+  view:nth-child(1) {
+    margin-left: 20rpx;
+    width: 8rpx;
+    height: 40rpx;
+    background-color: #D22C38;
+  }
+
+  view:nth-child(2) {
+    margin: 0rpx 30rpx;
+    font-weight: bold;
+  }
+
+  .discussDetail {
+    margin-top: 20rpx;
+    .user {
+      display: flex;
+      .name {
+        display: inline-block;
+        margin-left: 10rpx;
+      }
+    }
+  }
+
+}
+
+.discussDetail .user image {
+  width: 60rpx;
+  height: 60rpx;
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 20rpx;
+  border-radius: 50%;
+}
+
+.user .comment1-description {
+  display: flex;
+  flex-direction: row;
+}
+
+.discuss .discussDetail .star-pos {
+  display: flex;
+  flex-direction: row;
+  margin-left: 10rpx;
+}
+
+.discuss .discussDetail .user .comment1-description .star-pos .hideStar {
+  z-index: 10;
+  background-image: url("http://video.seouleaguer.com/brightStar.png");
+  width: 46rpx;
+  height: 46rpx;
+  background-size: 30rpx 30rpx;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+
+.discuss .discussDetail .starsM {
+  z-index: 1;
+  width: 46rpx;
+  height: 46rpx;
+  background-image: url("http://video.seouleaguer.com/whiteStar.png");
+  background-size: 30rpx 30rpx;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+
+.discuss .discussName {
+  width: 95%;
+  margin: 0 auto;
+}
+
+.discuss .discussCount {
+  width: 95%;
+  margin: 0 auto;
+  font-family: SourceHanSansCN-Regular;
+  font-size: 12px;
+  color: #4A4A4A;
+  line-height: 20px;
+}
+
+.discuss .textHiding {
+  display: -webkit-box;
+  word-break: break-all;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+.discuss .image {
+  display: flex;
+  margin-top: 20rpx;
+}
+
+.discuss .image .imageList {
+  width: 29%;
+  height: 300rpx;
+  margin: 0rpx 10rpx 0rpx 18rpx;
+  border-radius: 35rpx;
+
+}
+
+.discuss .image .imageList image {
+  width: 100%;
+  height: 100%;
+  display: inline-block;
+  border-radius: 35rpx;
+
+}
+
+.list .discuss .discussList {
+  margin: 60rpx auto;
+  text-align: center;
+  width: 40%;
+  padding: 10rpx;
+  border: 1rpx solid #000;
+  border-radius: 35rpx;
+  font-family: SourceHanSansCN-Regular;
+  font-size: 12px;
+  color: #4A4A4A;
 }
 
