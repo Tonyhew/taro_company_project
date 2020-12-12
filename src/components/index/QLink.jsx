@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import { View, Text, Image, Navigator } from '@tarojs/components'
-import member from '../../images/icon/member.png'
-import FaceConsultation from '../../images/icon/FaceConsultation.png'
-import vr from '../../images/icon/vr.png'
-import talkAbout from '../../images/icon/talkAbout.png'
+import member from '../../Images/icon/member.png'
+import FaceConsultation from '../../Images/icon/FaceConsultation.png'
+import vr from '../../Images/icon/vr.png'
+import talkAbout from '../../Images/icon/talkAbout.png'
 
 class QLink extends Component {
 
