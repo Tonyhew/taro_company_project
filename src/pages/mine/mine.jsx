@@ -1,11 +1,20 @@
 import React, { Component } from 'react'
-import Taro, { getApp, getStorageSync, setStorageSync } from '@tarojs/taro'
+import Taro, { clearStorageSync, getApp, getStorageSync, requirePlugin, setStorageSync } from '@tarojs/taro'
 import { View, Image, Text, Button, Navigator } from '@tarojs/components'
 import { set as setGlobalData, get as getGlobalData } from '../../config/global_data'
 import url from '../../config/api'
+import toBePaid from '../../Images/icon/toBePaid.png'
+import paid from '../../Images/icon/paid.png'
+import evaluate from '../../Images/icon/evaluate.png'
+import aftermarket from '../../Images/icon/aftermarket.png'
+import wallet from '../../Images/icon/wallet.png'
+import integral from '../../Images/icon/integral.png'
+import cardTicket from '../../Images/icon/cardTicket.png'
+import customerService from '../../Images/icon/customerService.png'
+import address from '../../Images/icon/address.png'
+import task from '../../Images/icon/task.png'
+import proposal from '../../Images/icon/proposal.png'
 import './mine.less'
-
-
 
 var app = getApp()
 export default class Mine extends Component {
@@ -47,16 +56,28 @@ export default class Mine extends Component {
   }
 
   componentDidShow() {
+    console.log(this.state.userInfo)
+
+    setGlobalData('hasUserInfo', this.state.hasUserInfo)
     Taro.getSetting({
       success: (res) => {
-        if (res.authSetting['scope.userInfo']) {
-          this.setState({
-            userInfo: getStorageSync('userInfo'),
-            cardRule: getStorageSync('cardRule')
+        console.log(res)
+        if (res.authSetting) {
+          Taro.getUserInfo({
+            success: (res) => {
+              console.log(res)
+              this.setState({
+                userInfo: res.userInfo,
+                cardRule: getStorageSync('cardRule'),
+                hasUserInfo: true
+              })
+              setStorageSync('userInfo', res.userInfo)
+            }
           })
+
           console.log(this.state.userInfo)
         }
-      }
+      },
     })
     Taro.request({
       url: url + '/UserInfo/selectUserInfo?openid=' + getGlobalData('openid'),
@@ -72,9 +93,9 @@ export default class Mine extends Component {
     })
   }
 
-  buttonIsShow = () => {
+  ButtonIsShow = () => {
     return (
-      <View class="button">
+      <View class="Button">
         <Button openType="getUserInfo" onClick={() => { this.getUserInfo() }} onGetUserInfo={() => { this.getUserInfo() }}>登录/注册 {">"}</Button>
         <View class="user">点击登录查看你的会员等级</View>
       </View>
@@ -89,11 +110,19 @@ export default class Mine extends Component {
       </View>
     )
   }
-  register = () =>{
+  register = () => {
     return (
       <Navigator class="open" url="../card/info?edit=1">
         注册会员
       </Navigator>
+    )
+  }
+
+  dataButton = () => {
+    return (
+      <View class="Button2">
+        <View>--</View>
+      </View>
     )
   }
 
@@ -113,15 +142,17 @@ export default class Mine extends Component {
                   JSON.parse(getGlobalData('cardRule')[2].content).card_status2 :
                   JSON.parse(getGlobalData('cardRule')[2].content).card_status3} />
             }
-            <View>Blue Card</View>
+            {
+              this.state.userMeta.card == 1 ? <View>Blue Card</View> : null
+            }
           </Navigator>
-          <View class={(!this.state.hasUserInfo && this.state.canIUse) ? 'top_view2' : 'top_view'}>
+          <View class={(!this.state.hasUserInfo && this.state.canIUse) ? 'top_View2' : 'top_View'}>
             <Image class="avatar" src={this.state.userInfo.avatarUrl}></Image>
             <View class="nick">
               {
-                (!this.state.hasUserInfo && this.state.canIUse) ? this.buttonIsShow() : null
+                (!this.state.hasUserInfo && this.state.canIUse) ? this.ButtonIsShow() : null
               }
-              
+
               {
                 (!this.state.hasUserInfo && this.state.canIUse) ? null : this.nickGrade()
               }
@@ -130,7 +161,7 @@ export default class Mine extends Component {
           <View class="autograph">{this.state.userInfo.personalSignature}</View>
           <View>
             <View class="jifen" >
-              <View >{this.state.userInfo.card == 1 ? this.state.userInfo.score : '--'}</View>
+              <View >{this.state.userMeta.card == 1 ? this.state.userInfo.score : '--'}</View>
               <View>盐值积分</View>
             </View>
           </View>
@@ -139,11 +170,102 @@ export default class Mine extends Component {
           }
         </View >
 
-      </View >
+        <View class="shuju">
+          <View class="" style="flex: 1;text-align: center;font-size:3vw;">
+            {
+              !this.state.hasUserInfo && this.state.canIUse ? this.dataButton() : <View><View>{this.state.number1}</View></View>
+            }
+            <View>关注数</View>
+          </View>
+          <View style="width:3.5rpx;height:60rpx;background-color:#E2E2E2"></View>
+          <View class="" style="flex: 1;text-align: center;font-size: 3vw;">
+            {
+              !this.state.hasUserInfo && this.state.canIUse ? this.dataButton() : <View><View>{this.state.number2}</View></View>
+            }
+            <View>我喜欢</View>
+          </View>
+          <View style="width:3.5rpx;height:60rpx;background-color:#E2E2E2"></View>
+          <View style="flex: 1;text-align: center;font-size: 3vw;">
+            {
+              !this.state.hasUserInfo && this.state.canIUse ? this.dataButton() : <View><View>{this.state.number3}</View></View>
+            }
+            <View>我收藏</View>
+          </View>
+          <View style="width:3.5rpx;height:60rpx;background-color:#E2E2E2"></View>
+          <View style="flex: 1;text-align: center;font-size: 3vw;">
+            {
+              !this.state.hasUserInfo && this.state.canIUse ? this.dataButton() : <View><View>{this.state.number4}</View></View>
+            }
+            <View>我参与</View>
+          </View>
+        </View>
+
+        <View class="list">
+          <View class="list_content">
+            <Navigator class="item" url="../order/order?orderStatus=1">
+              <Image src={toBePaid}></Image>
+              <View>待付款</View>
+            </Navigator>
+            <Navigator class="item" url="../order/order?orderStatus=2">
+              <Image src={paid}></Image>
+              <View>已付款</View>
+            </Navigator>
+            <Navigator class="item" url="../order/order?orderStatus=3">
+              <Image src={evaluate}></Image>
+              <View>待评价</View>
+            </Navigator>
+            <Navigator class="item" url="../order/order?orderStatus=4">
+              <Image src={aftermarket}></Image>
+              <View>退售后</View>
+            </Navigator>
+          </View>
+        </View>
+
+        <View class="list2">
+          <View class="list_content">
+            <Navigator class="item" url="../over/over">
+              <Image src={wallet}></Image>
+              <View>盐值钱包</View>
+            </Navigator>
+            <Navigator class="item" url="../score/score">
+              <Image src={integral}></Image>
+              <View>盐值积分</View>
+            </Navigator>
+            <Navigator class="item" url="../coupon/coupon">
+              <Image src={cardTicket}></Image>
+              <View>盐值卡券</View>
+            </Navigator>
+            <View class="item">
+              <Button class="customer_service" open-type="contact" session-from="weapp">
+                <Image src={customerService}></Image>
+              </Button>
+              <View style="height:10rpx"></View>
+              <View>客服中心</View>
+            </View>
+          </View>
+          <View class="list_content">
+            <Navigator class="item" url="../address/address">
+              <Image src={address}></Image>
+              <View>地址管理</View>
+            </Navigator>
+            <Navigator class="item" url="#">
+              <Image src={evaluate}></Image>
+              <View>服务评价</View>
+            </Navigator>
+            <Navigator class="item" url="../calendar/calendar">
+              <Image src={task}></Image>
+              <View>每日签到</View>
+            </Navigator>
+            <Navigator class="item" url="#">
+              <Image src={proposal}></Image>
+              <View>反馈建议</View>
+            </Navigator>
+          </View>
+        </View>
+
+      </View>
     )
   }
 }
-
-
 
 

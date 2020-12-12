@@ -1,3 +1,6 @@
+page{  
+  background: #f5f5f5;
+}
 .top {
   height: 432rpx;
   background-image: linear-gradient(-180deg, #ADDAFF 0%, #F5F5F5 100%);
@@ -41,7 +44,7 @@
 
 }
 
-.top_view {
+.top_View {
   width: 160rpx;
   position: relative;
   top: -305rpx;
@@ -49,7 +52,7 @@
   display: inline-block;
 }
 
-.top_view .nick {
+.top_View .nick {
   display: inline-block;
   position: absolute;
   top: 25rpx;
@@ -66,7 +69,7 @@
   display: inline-block;
 }
 
-.blueCard .top_view .nick .nickName .grade {
+.blueCard .top_View .nick .nickName .grade {
   height: 35rpx;
   font-size: 3vw;
   text-align: center;
@@ -76,13 +79,13 @@
   display: inline-block;
 }
 
-.top_view2 {
+.top_View2 {
   position: relative;
   top: -305rpx;
   left: 40rpx;
 }
 
-.top_view2 .avatar {
+.top_View2 .avatar {
   width: 90rpx;
   height: 90rpx;
   border-radius: 100%;
@@ -90,13 +93,13 @@
   display: inline-block;
 }
 
-.top_view2 .nick {
+.top_View2 .nick {
   width: 300rpx;
   display: inline-block;
   vertical-align: middle;
 }
 
-.top_view2 .nick .button button {
+.top_View2 .nick .button button {
   font-size: 28rpx;
   color: #4A4A4A;
   background-color: none;
@@ -175,7 +178,7 @@
   background-color: #FFFFFF;
   padding-top: 30rpx;
   width: 95%;
-  margin: 60rpx auto 10rpx auto;
+  margin: 90rpx auto 10rpx auto;
   border-radius: 30rpx;
   height: 94rpx;
 }
@@ -312,4 +315,30 @@
   margin-top: 55rpx;
   overflow: hidden;
   padding: 50rpx;
+}
+
+.customer_service {   
+  width: 50rpx;
+  height:50rpx;
+  border-radius: 100%;
+  background: transparent;
+  padding: 0;   
+  z-index: 99;
+}
+
+.customer_service::after {
+  display: none;
+  content: '';
+  border-radius: 0;
+  border: none;
+}
+
+.customer_service.call {
+  bottom: 170rpx;
+}
+
+.customer_service>image {
+  width: 100%;
+  height: 100%;
+  border-radius: 100%;
 }
