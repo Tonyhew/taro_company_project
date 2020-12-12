@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import Taro, { setStorageSync } from '@tarojs/taro';
+import Taro, { getFileInfo, setStorageSync } from '@tarojs/taro';
 import url from '../src/config/api'
 import { set as setGlobalData, get as getGlobalData } from '../src/config/global_data'
 import './app.less';
@@ -41,11 +41,17 @@ class App extends Component {
       }
     })
 
-    Taro.getSetting({
-      success: (res) => {
-        console.log(res)
-      }
-    })
+    if(getGlobalData('hasUserInfo')) {
+      Taro.getUserInfo({
+        success: (res) => {
+          console.log(res)
+          if (res.errMsg == "getUserInfo:ok") {
+            setGlobalData('userInfo', res.userInfo)
+            setStorageSync('userInfo', res.userInfo)
+          }
+        }
+      })
+    }
     
     Taro.request({
       url: url + '/Recharge/selectRecharge',
