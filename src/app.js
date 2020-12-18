@@ -6,9 +6,9 @@ import './app.less';
 
 class App extends Component {
 
-  componentDidMount () {}
+  componentDidMount() { }
 
-  componentDidShow () {
+  componentDidShow() {
     Taro.setTabBarStyle({
       color: '#858585',
       selectedColor: '#347be9',
@@ -19,7 +19,7 @@ class App extends Component {
 
     Taro.login({
       success: (res) => {
-        if(res.code) {
+        if (res.code) {
           Taro.request({
             method: 'GET',
             url: url + '/wechat/user/login',
@@ -41,7 +41,7 @@ class App extends Component {
       }
     })
 
-    if(getGlobalData('hasUserInfo')) {
+    if (getGlobalData('hasUserInfo')) {
       Taro.getUserInfo({
         success: (res) => {
           console.log(res)
@@ -52,7 +52,53 @@ class App extends Component {
         }
       })
     }
-    
+
+    // 获取用户信息   
+    Taro.getSetting({
+      success: res => {
+        if (res.authSetting['scope.userInfo']) {
+          // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
+          Taro.getUserInfo({
+            success: res => {
+              //将用户名昵称和头像存入数据库
+              var openidl = Taro.getStorageSync('openid');
+              Taro.setStorageSync('userInfo', res.userInfo)
+              var nickName = res.userInfo.nickName;
+              var avatarUrl = res.userInfo.avatarUrl;
+              Taro.setStorageSync('avatarUrl', res.userInfo.avatarUrl)
+              var gender = res.userInfo.gender;
+              var country = res.userInfo.country;
+              var province = res.userInfo.province;
+              var city = res.userInfo.city;
+              if ("" != avatarUrl && "" != nickName) {
+                wx.request({
+                  url: url + '/UserInfo/updateUserInfo',
+                  data: {
+                    openid: openidl,
+                    nick: nickName,
+                    avatar: avatarUrl,
+                    gender: gender,
+                    country: country,
+                    province: province,
+                    city: city
+                  },
+                  method: "POST",
+                  header: {//接口返回的数据类型，可以直接解析数据
+                    'Content-Type': 'application/json'
+                  },
+                  success: function (res) {
+                    Taro.setStorageSync('userInfo', res.data.data)
+                  },
+                  error: function (res) {
+                  }
+                })
+              }
+            }
+          })
+        }
+      }
+    })
+
     Taro.request({
       url: url + '/Recharge/selectRecharge',
       data: {
@@ -72,12 +118,12 @@ class App extends Component {
 
   }
 
-  componentDidHide () {}
+  componentDidHide() { }
 
-  componentDidCatchError () {}
+  componentDidCatchError() { }
 
   // this.props.children 是将要会渲染的页面
-  render () {
+  render() {
     return this.props.children
   }
 }

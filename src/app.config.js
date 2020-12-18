@@ -5,7 +5,8 @@ export default {
     'pages/scores/scores',
     'pages/mine/mine',
     'pages/service/detail',
-    'pages/blank/blank'
+    'pages/card/card',
+    'pages/card/info'
   ],
   window: {
     backgroundTextStyle: 'light',
