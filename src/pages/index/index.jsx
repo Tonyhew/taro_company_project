@@ -1,11 +1,16 @@
 import React, { Component } from 'react';
 import { View } from '@tarojs/components';
 import Taro from '@tarojs/taro';
+import { set as setGlobalData, get as getGlobalData } from '../../config/global_data'
 import Banner from '../../components/index/Banner';
 import QLink from '../../components/index/QLink';
 import Popular from '../../components/index/Popular';
 import Recommend from '../../components/index/Recommend';
-import LimitedTime from '../../components/index/LimitedTime'
+import LimitedTime from '../../components/index/LimitedTime';
+import QA from '../../components/index/QA';
+import HotTopic from '../../components/index/HotTopic';
+import Environment from '../../components/index/Environment';
+import Map from '../../components/index/Map';
 import api from '../../config/api';
 import './index.less';
 
@@ -24,6 +29,14 @@ export default class Index extends Component {
     listTime: {},
     displayHeight: 0,
     beautyProjectList: [],
+    questionListTitle: [],
+    questionList: [],
+    hotTopicTitle: [],
+    hotTopicList: [],
+    environmentTitle: [],
+    currentIndex: 0,
+    mapTitle: [],
+    mapList: []
   }
 
   constructor(props) {
@@ -81,13 +94,46 @@ export default class Index extends Component {
       data: {
         id: 3
       },
+      header: { //接口返回的数据类/tion/json'
+      },
+    }).then((res) => {
+      this.setState({
+        limitTimeTitle: res.data.data
+      })
+    })
+
+    // 你问我答版块
+    Taro.request({
+      method: 'GET',
+      url: api + '/HomeModule/selectHomeModuleById',
+      data: {
+        id: 4
+      },
+      header: { //接口返回的数据类/tion/json'
+      },
+    }).then((res) => {
+      this.setState({
+        questionListTitle: res.data.data
+      })
+    })
+    //查询你问我答
+    Taro.request({
+      url: api + "/Popular/selectPopularTypes",
+      data: {
+        openid: getGlobalData('openid'),
+        status: 1,
+        pageIndex: 0,
+        pageSize: 100
+      },
+      method: "POST",
       header: { //接口返回的数据类型，可以直接解析数据
         'Content-Type': 'application/json'
       },
-    }).then((res) => {
+
+    }).then(res => {
       console.log(res)
       this.setState({
-        limitTimeTitle: res.data.data
+        questionList: res.data.data
       })
     })
 
@@ -127,7 +173,6 @@ export default class Index extends Component {
         'Content-Type': 'application/json'
       },
     }).then((res) => {
-      console.log(res)
       var e, i, s, n;
       var listTime = {};
       if (res.data.data.length > 0) {
@@ -156,36 +201,143 @@ export default class Index extends Component {
         displayHeight: swiperHeight,
         beautyProjectList: res.data.data
       })
+    })
 
+    // 热门话题版块
+    Taro.request({
+      method: 'GET',
+      url: api + '/HomeModule/selectHomeModuleById',
+      data: {
+        id: 5
+      },
+      header: { //接口返回的数据类/tion/json'
+      },
+    }).then((res) => {
+      this.setState({
+        hotTopicTitle: res.data.data
+      })
+    })
+    Taro.request({
+      url: api + "/TopicType/selectTopicType",
+      data: {
+        status: 1,
+        indexType: 1,
+        pageIndex: 0,
+        pageSize: 10
+      },
+      method: "POST",
+      header: { //接口返回的数据类型，可以直接解析数据
+        'Content-Type': 'application/json'
+      },
+    }).then(res => {
+      this.setState({
+        hotTopicList: res.data.data
+      })
+    })
 
+    Taro.request({
+      method: 'GET',
+      url: api + '/HomeModule/selectHomeModuleById',
+      data: {
+        id: 9
+      },
+      header: { //接口返回的数据类/tion/json'
+      },
+    }).then((res) => {
+      this.setState({
+        environmentTitle: res.data.data
+      })
+    })
+
+    Taro.request({
+      method: 'GET',
+      url: api + '/HomeModule/selectHomeModuleById',
+      data: {
+        id: 10
+      },
+      header: { //接口返回的数据类/tion/json'
+      },
+    }).then((res) => {
+      this.setState({
+        mapTitle: res.data.data
+      })
+    })
+
+    Taro.request({
+      method: 'POST',
+      url: api + '/StoreAddress/selectStoreAddress',
+      data: {},
+      header: { //接口返回的数据类/tion/json'
+      },
+    }).then((res) => {
+      var str = res.data.data[0].map
+      var obj = JSON.parse(str);
+      res.data.data[0].map = obj;
+      setGlobalData('mapData', obj)
+      this.setState({
+        mapList: res.data.data
+      })
     })
 
   }
 
   componentWillUnmount() {
-    clearInterval(dd)
+    clearInterval(dd);
+    this.setState = (state, callback) => {
+      return;
+    };
   }
 
 
   render() {
     return (
       <View className='index'>
+
         {/* Banner */}
         <Banner banner={this.state.banner} />
+
         {/* 快速链接 */}
         <QLink />
+
         {/* 新人专享等 */}
         <Popular hotSeasonTitle={this.state.hotSeasonTitle} seasonImg={this.state.seasonPopular} />
+
         {/* 今日推荐 */}
         <Recommend recommend={this.state.recommend} />
+
         {/* 限时秒杀 */}
-        <LimitedTime
-          limitTimeTitle={this.state.limitTimeTitle}
-          listTime={this.state.listTime}
-          beautyProjectList={this.state.beautyProjectList}
-          displayHeight={this.state.displayHeight}
+        {
+          this.state.beautyProjectList.length > 0 ? <LimitedTime
+            limitTimeTitle={this.state.limitTimeTitle}
+            listTime={this.state.listTime}
+            beautyProjectList={this.state.beautyProjectList}
+            displayHeight={this.state.displayHeight}
+          /> : null
+        }
+
+        {/* 快速问答 */}
+        <QA
+          questionListTitle={this.state.questionListTitle}
+          questionListData={this.state.questionList}
         />
 
+        {/* 热门话题 */}
+        <HotTopic
+          hotTopicTitle={this.state.hotTopicTitle}
+          hotTopicList={this.state.hotTopicList}
+        />
+
+        {/* 亦医亦景 */}
+        <Environment
+          environmentTitle={this.state.environmentTitle}
+          environmental={this.state.environmental}
+        />
+
+        {/* 来院路线 */}
+        <Map
+          mapTitle={this.state.mapTitle}
+          mapList={this.state.mapList}
+        />
 
       </View>
     )
