@@ -87,7 +87,7 @@ class App extends Component {
                     'Content-Type': 'application/json'
                   },
                   success: function (res) {
-                    Taro.setStorageSync('userInfo', res.data.data)
+                    // Taro.setStorageSync('userInfo', res.data.data)
                   },
                   error: function (res) {
                   }
