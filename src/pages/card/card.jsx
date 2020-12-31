@@ -122,19 +122,19 @@ class Card extends Component {
         <View class="top">
           <Image class="seouleaguerImage" src="https://applets.seouleaguer.com/images/2020/09/seouleaguer.png" mode="aspectFit"></Image>
           <View class="card">
-            <Image class="back" src={getStorageSync('userInfo').card != 1 ? JSON.parse(getStorageSync('cardRule')[2].content).card_status2 : JSON.parse(getStorageSync('cardRule')[2].content).card_status3} mode="widthFix"></Image>
+            <Image class="back" src={getStorageSync('userMeta').card != 1 ? JSON.parse(getStorageSync('cardRule')[2].content).card_status2 : JSON.parse(getStorageSync('cardRule')[2].content).card_status3} mode="widthFix"></Image>
             {
-              getStorageSync('userInfo').card == 1 ? <View className='blueCard'>Blue Card</View> : null
+              getStorageSync('userMeta').card == 1 ? <View className='blueCard'>Blue Card</View> : null
             }
-            <View class={getStorageSync('userInfo').card == 1 ? 'userinfo' : 'userinfo2'}>
-              <Image src={getStorageSync('userInfo').avatar}></Image>
-              <View style="color: #fff">{getStorageSync('userInfo').nick}</View>
+            <View class={getStorageSync('userMeta').card == 1 ? 'userinfo' : 'userinfo2'}>
+              <Image src={getStorageSync('userMeta').avatar}></Image>
+              <View style="color: #fff">{getStorageSync('userMeta').nick}</View>
             </View>
           </View>
         </View>
 
         {
-          getStorageSync('userInfo').card != 1 ? <View onClick={this.to_edit} class="btn" data-index="1" style="background:#E7455A;">立即开通</View> : <View onClick={this.to_edit} class="btn" data-index="2" style="background:#E7455A;">查看信息</View>
+          getStorageSync('userMeta').card != 1 ? <View onClick={this.to_edit} class="btn" data-index="1" style="background:#E7455A;">立即开通</View> : <View onClick={this.to_edit} class="btn" data-index="2" style="background:#E7455A;">查看信息</View>
         }
 
         <View class="info">
