@@ -106,7 +106,6 @@ export default class Mine extends Component {
             success: res => {
               //将用户名昵称和头像存入数据库
               var openidl = Taro.getStorageSync('openid');
-              Taro.setStorageSync('userInfo', res.userInfo)
               var nickName = res.userInfo.nickName;
               var avatarUrl = res.userInfo.avatarUrl;
               Taro.setStorageSync('avatarUrl', res.userInfo.avatarUrl)
