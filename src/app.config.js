@@ -6,7 +6,10 @@ export default {
     'pages/mine/mine',
     'pages/service/detail',
     'pages/card/card',
-    'pages/card/info'
+    'pages/card/info',
+    'pages/link/link',
+    'pages/popular/popular',
+    'pages/topic/topic',
   ],
   window: {
     backgroundTextStyle: 'light',
