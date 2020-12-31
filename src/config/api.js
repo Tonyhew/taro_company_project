@@ -1,3 +1,3 @@
-let api = 'https://backstage.huangzhemin.com/miniapp'
+let api = 'https://miniapp.tonyhew.com/miniapp'
 
 export default api
