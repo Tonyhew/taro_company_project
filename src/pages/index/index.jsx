@@ -10,14 +10,17 @@ import LimitedTime from '../../components/index/LimitedTime';
 import QA from '../../components/index/QA';
 import HotTopic from '../../components/index/HotTopic';
 import Environment from '../../components/index/Environment';
+import Skeleton from './index_skeleton'
 import Map from '../../components/index/Map';
 import api from '../../config/api';
 import './index.less';
 
-var dd;
+var dd,
+  s;
 export default class Index extends Component {
 
   state = {
+    loading: true,
     pagesize: 3,
     banner: [],
     hotSeasonTitle: [],
@@ -54,6 +57,12 @@ export default class Index extends Component {
   }
 
   componentDidShow() {
+    let that = this
+    setTimeout(function () {
+      that.setState({
+        loading: false
+      })
+    }, 1000)
 
     // 获取banner图片
     Taro.request({
@@ -288,56 +297,71 @@ export default class Index extends Component {
     };
   }
 
+  ske = () => {
+    return (
+      <Skeleton />
+    )
+  }
+
 
   render() {
     return (
-      <View className='index'>
+      <View>
 
-        {/* Banner */}
-        <Banner banner={this.state.banner} />
-
-        {/* 快速链接 */}
-        <QLink />
-
-        {/* 新人专享等 */}
-        <Popular hotSeasonTitle={this.state.hotSeasonTitle} seasonImg={this.state.seasonPopular} />
-
-        {/* 今日推荐 */}
-        <Recommend recommend={this.state.recommend} />
-
-        {/* 限时秒杀 */}
         {
-          this.state.beautyProjectList.length > 0 ? <LimitedTime
-            limitTimeTitle={this.state.limitTimeTitle}
-            listTime={this.state.listTime}
-            beautyProjectList={this.state.beautyProjectList}
-            displayHeight={this.state.displayHeight}
-          /> : null
+          this.state.loading ? this.ske() :
+            <View className='index'>
+
+              {/* Banner */}
+              <Banner banner={this.state.banner} />
+
+              {/* 快速链接 */}
+              <QLink />
+
+              {/* 新人专享等 */}
+              <Popular hotSeasonTitle={this.state.hotSeasonTitle} seasonImg={this.state.seasonPopular} />
+
+              {/* 今日推荐 */}
+              <Recommend recommend={this.state.recommend} />
+
+              {/* 限时秒杀 */}
+              {
+                this.state.beautyProjectList.length > 0 ?
+                  <LimitedTime
+                    limitTimeTitle={this.state.limitTimeTitle}
+                    listTime={this.state.listTime}
+                    beautyProjectList={this.state.beautyProjectList}
+                    displayHeight={this.state.displayHeight}
+                  /> : null
+              }
+
+              {/* 快速问答 */}
+              <QA
+                questionListTitle={this.state.questionListTitle}
+                questionListData={this.state.questionList}
+              />
+
+              {/* 热门话题 */}
+              <HotTopic
+                hotTopicTitle={this.state.hotTopicTitle}
+                hotTopicList={this.state.hotTopicList}
+              />
+
+              {/* 亦医亦景 */}
+              <Environment
+                environmentTitle={this.state.environmentTitle}
+                environmental={this.state.environmental}
+              />
+
+              {/* 来院路线 */}
+              <Map
+                mapTitle={this.state.mapTitle}
+                mapList={this.state.mapList}
+              />
+
+            </View>
         }
 
-        {/* 快速问答 */}
-        <QA
-          questionListTitle={this.state.questionListTitle}
-          questionListData={this.state.questionList}
-        />
-
-        {/* 热门话题 */}
-        <HotTopic
-          hotTopicTitle={this.state.hotTopicTitle}
-          hotTopicList={this.state.hotTopicList}
-        />
-
-        {/* 亦医亦景 */}
-        <Environment
-          environmentTitle={this.state.environmentTitle}
-          environmental={this.state.environmental}
-        />
-
-        {/* 来院路线 */}
-        <Map
-          mapTitle={this.state.mapTitle}
-          mapList={this.state.mapList}
-        />
 
       </View>
     )
