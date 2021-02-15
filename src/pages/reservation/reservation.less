@@ -1,0 +1,267 @@
+.page {
+  padding: 30rpx;
+}
+
+.top {
+  display: flex;
+  height: 80rpx;
+
+  image {
+    margin-top: 10rpx;
+    width: 50rpx;
+    height: 50rpx;
+  }
+
+  view:nth-child(2) {
+    font-size: 36rpx;
+    font-weight: bold;
+    color: #4a4a4a;
+    line-height: 60rpx;
+    letter-spacing: 1.12rpx;
+    margin-left: 20rpx;
+  }
+}
+
+.from {
+  background: #ffffff;
+  margin-top: 10rpx;
+  overflow: hidden;
+
+  .item {
+    display: flex;
+    border-bottom: #eeeeee 2rpx solid;
+    padding: 35rpx 30rpx;
+    color: #4a4a4a;
+
+    .picking {
+      flex: 1;
+      text-align: right;
+    }
+
+    .asterisk {
+      margin-left: 10rpx;
+      font-size: 32rpx;
+      color: #d22c38;
+      letter-spacing: 1rpx;
+    }
+
+    .input {
+      flex: 1;
+      text-align: right;
+    }
+
+    .sex {
+      position: relative;
+      text-align: right;
+      margin-left: 20rpx;
+      left: 58%;
+    }
+
+    .sex > view:nth-child(1) {
+      display: inline-block;
+      width: 20rpx;
+      height: 20rpx;
+      border-radius: 100%;
+      background: #ffffff;
+      border: 2rpx solid #9b9b9b;
+      margin-right: 10rpx;
+      margin-top: 8rpx;
+    }
+
+    .sex > view.curr:nth-child(1) {
+      width: 10rpx;
+      height: 10rpx;
+      border-radius: 100%;
+      border: 10rpx solid #347be9;
+    }
+
+    .sex > view:nth-child(2) {
+      display: inline-block;
+      margin-left: 8rpx;
+    }
+  }
+
+  .item > view:nth-child(1) {
+    font-size: 3.5vw;
+    font-weight: bold;
+  }
+}
+
+.prompt {
+  margin-top: 20rpx;
+
+  .heads {
+    display: flex;
+    padding: 20rpx;
+
+    image {
+      width: 40rpx;
+      height: 40rpx;
+    }
+  }
+
+  .heads > view:nth-child(2) {
+    font-size: 32rpx;
+    color: #d22c38;
+    margin-left: 20rpx;
+  }
+
+  .content {
+    padding: 0rpx 10rpx;
+
+    .bale {
+      display: flex;
+    }
+
+    .dian {
+      background: #4a4a4a;
+      width: 12rpx;
+      height: 12rpx;
+      border-radius: 50%;
+      margin: 16rpx 20rpx;
+    }
+
+    .title {
+      font-size: 28rpx;
+      color: #4a4a4a;
+    }
+  }
+}
+
+.button {
+  margin: 50rpx 20rpx 0;
+  height: 80rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40rpx;
+  color: #ffffff;
+  background: #3b81e9;
+  border-radius: 8rpx;
+}
+
+.member_page {
+  background: #f7f7f7;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: scroll;
+  z-index: 101;
+
+  .member_list {
+    .item {
+      background: #fff;
+      display: flex;
+      padding: 20rpx;
+
+      .item_r {
+        margin-left: 20rpx;
+        flex: 1;
+        width: 560rpx;
+
+        .name {
+          font-size: 4vw;
+          margin-top: 26rpx;
+
+          .task {
+            color: #b9b9b9;
+            font-size: 3.5vw;
+          }
+        }
+
+        .tip {
+          overflow: hidden;
+          color: #b9b9b9;
+          font-size: 3vw;
+          margin-top: 10rpx;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+
+          .tip_b {
+            border-radius: 20rpx;
+            padding: 0 20rpx;
+            color: #26b599;
+            margin: 5rpx;
+            border: 1rpx #26b599 solid;
+          }
+        }
+
+        .tip > view {
+          float: left;
+        }
+      }
+    }
+
+    .item + .item {
+      margin-top: 10rpx;
+    }
+
+    .item > image {
+      width: 100rpx;
+      height: 100rpx;
+      border: #ddd 1rpx solid;
+      border-radius: 100%;
+    }
+  }
+
+  .return {
+    position: fixed;
+    bottom: 20vh;
+    right: 20rpx;
+    z-index: 100000000000000000;
+  }
+  
+  .return>image {
+    margin-bottom: 10rpx;
+    width: 50px;
+    height: 50px;
+  }
+}
+
+/* 模态框开始 */
+/* 蒙层 */
+.modelboxbg{
+  position:absolute;
+  top:0;
+  z-index:10000;
+  width:100%;
+  height: 100%;
+  background: #000;
+  opacity: 0.3;
+}
+.modelbox{
+  position:absolute;
+  bottom:0;
+  z-index:999999;
+  width:100%;
+  background: #fff; 
+}
+picker-view-column{
+  text-align: center;
+}
+view.model_picker{
+  position: relative;
+}
+.button_model{
+  height: 80rpx;
+  width: 100%;
+  background: #fff;
+  position: relative;
+  border-bottom: 1px solid #d9d9d9;
+}
+.button_model text{
+    color: #007aff;
+    position: absolute;
+    background:transparent;
+    border: none;
+    line-height: 80rpx;
+}
+.button_model text:first-child{
+  left: 32rpx;
+}
+.button_model text:last-child{
+  right: 32rpx;
+}
+/* 模态框结束 */
