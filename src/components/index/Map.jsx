@@ -11,7 +11,6 @@ class Map extends Component {
     let t = getGlobalData('mapData');
     let latitude = t.latitude;
     let longitude = t.longitude;
-    console.log(this.props.mapList[0])
     Taro.openLocation({
       latitude: parseFloat(latitude),
       longitude: parseFloat(longitude),
