@@ -1,0 +1,208 @@
+.sousuo {
+  position: fixed;
+  width: 100%;
+  z-index: 99;
+
+  .page_row {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .searchcion {
+    margin: 10rpx 10rpx 10rpx 10rpx;
+    position: absolute;
+    left: 25rpx;
+    z-index: 2;
+    width: 40rpx;
+    height: 4r0px;
+    text-align: center;
+  }
+}
+
+.tit_seabox {
+  /* width: calc( 100% - 64rpx ); */
+  width: 92%;
+  background: #fff;
+  height: 60rpx;
+  padding: 20rpx 32rpx;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+.tit_seabox_bar {
+  width: calc(100% - 32rpx);
+  height: 60rpx;
+  display: flex;
+  align-items: center;
+  border-radius: 30rpx;
+  background: #f5f5f5;
+  padding-left: 32rpx;
+}
+/*有权限添加活动*/
+.tit_seabox_bar.tit_seabox_add {
+  width: calc(100% - 122rpx);
+}
+/*开始搜索时*/
+.tit_seabox_bar.tit_start_search {
+  width: calc(100% - 102rpx);
+}
+/*开始搜索且有权限添加*/
+.tit_seabox_bar.tit_start_search.tit_seabox_add {
+  width: calc(100% - 192rpx);
+}
+.tit_seabox_bar icon {
+  display: -webkit-flex;
+  flex: 0.1;
+}
+.tit_seabox input {
+  flex: 1;
+  height: 60rpx;
+  line-height: 60rpx;
+  font-size: 28rpx;
+  width: 100%;
+  margin-right: 32rpx;
+}
+.activity_add {
+  width: 60rpx;
+  text-align: right;
+  border-left: 4rpx solid #f2f2f2;
+  margin-left: 20rpx;
+}
+.activity_add image {
+  width: 40rpx;
+  height: 40rpx;
+}
+.activity_seabtn {
+  font-size: 28rpx;
+  width: 70rpx;
+  text-align: right;
+}
+
+.nav {
+  position: fixed;
+  display: flex;
+  width: 100%;
+  z-index: 99;
+  top: 95rpx;
+  left: 0;
+  font-size: 32rpx;
+  color: #9b9b9b;
+  background: #fff;
+
+  .swiper-tab-item {
+    flex: 1;
+    margin: 0 110rpx;
+    padding: 20rpx 0;
+    text-align: center;
+    position: relative;
+  }
+
+  .active {
+    height: 50rpx;
+    font-family: SourceHanSansCN-Bold;
+    font-size: 32rpx;
+    color: #4a4a4a;
+    border-bottom: 8rpx solid #347be9;
+  }
+}
+
+.nav_block {
+  height: 90rpx;
+}
+
+.topicList {
+  margin-top: 100rpx;
+  position: absolute;
+
+  .piece {
+    margin-left: 18rpx;
+    margin-top: 20rpx;
+    padding: 30rpx;
+    width: 88%;
+    box-shadow: 4rpx 4rpx 16rpx #d2d2d2;
+    border-radius: 30rpx;
+    background-color: #ffffff;
+    position: relative;
+
+    image {
+      width: 232rpx;
+      height: 232rpx;
+      left: 14rpx;
+      float: right;
+      position: relative;
+    }
+
+    .titel {
+      width: 64%;
+      font-size: 32rpx;
+      color: #4a4a4a;
+      letter-spacing: 0;
+      display: inline-block;
+      position: relative;
+    }
+
+    .count {
+      font-family: SourceHanSansCN-Regular;
+      font-size: 22rpx;
+      color: #9b9b9b;
+      letter-spacing: 0;
+      line-height: 36rpx;
+      width: 60%;
+      display: -webkit-box;
+      word-break: break-all;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 4;
+      position: relative;
+    }
+
+    .line {
+      top: 40rpx;
+      border: 2rpx solid #e2e2e2;
+      position: relative;
+    }
+  }
+}
+
+.community {
+  margin-top: 100rpx;
+  position: absolute;
+
+  .piece2 {
+    margin: 40rpx 20rpx;
+    padding: 30rpx 20rpx;
+    background: #ffffff;
+    box-shadow: 0 2px 4px 2px rgba(242, 242, 242, 0.5);
+    border-radius: 8px;
+
+    image {
+      width: 45rpx;
+      height: 45rpx;
+      position: relative;
+      top: 20rpx;
+    }
+
+    .content {
+      width: 90%;
+      font-family: SourceHanSansCN-Medium;
+      font-size: 24rpx;
+      color: #4a4a4a;
+      line-height: 48rpx;
+      left: 60rpx;
+      top: -30rpx;
+      position: relative;
+    }
+
+    .author {
+      font-family: SourceHanSansCN-Medium;
+      font-size: 28rpx;
+      color: #4a4a4a;
+      line-height: 48rpx;
+      right: 20rpx;
+      top: -30rpx;
+      float: right;
+      position: relative;
+    }
+  }
+}
