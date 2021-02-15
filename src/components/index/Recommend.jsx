@@ -8,7 +8,7 @@ class Recommend extends Component {
         {
           this.props.recommend.map((recommend, index) => {
             return (
-              <Navigator key={index} class="item" url={recommend.link ? '/pages/link/link?id='+recommend.link : '#'}>
+              <Navigator key={index} class="item" url={recommend.link ? '/pages/link/link?id=' + recommend.link : '#'}>
                 <View class="content">
                   <View class="name1">
                     <View class="jinri">{recommend.pictureName}</View>
