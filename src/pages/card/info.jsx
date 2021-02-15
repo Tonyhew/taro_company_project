@@ -46,7 +46,7 @@ class Info extends Component {
       n = a.state.password,
       s = !0
     "" != t && null != t || (s = !1), "" != e && null != e || (s = !1);
-    /^[1][3,4,5,7,8][0-9]{9}$/.test(e) || (s = !1);
+    /^1(3\d|4[5-9]|5[0-35-9]|6[567]|7[0-8]|8\d|9[0-35-9])\d{8}$/.test(e) || (s = !1);
     var d = a.state.card;
     "" != d && null != d && null != d.content && "" != d.content && 1 == d.content.code_status && ("" != o && null != o || (s = !1)),
       ("" == n || null == n || n.length < 6) && (s = !1)
@@ -96,7 +96,7 @@ class Info extends Component {
   getcode_register = () => {
     var t = this;
     var a = t.state.mobile;
-    t.state.isload || ("" != a && null != a && /^(((13[0-9]{1})|(14[0-9]{1})|(17[0-9]{1})|(15[0-3]{1})|(15[5-9]{1})|(18[0-9]{1}))+\d{8})$/.test(a) ? Taro.request({
+    t.state.isload || ("" != a && null != a && /^1(3\d|4[5-9]|5[0-35-9]|6[567]|7[0-8]|8\d|9[0-35-9])\d{8}$/.test(a) ? Taro.request({
       url: url + "/SMS/sendSms",
       data: {
         phone: t.state.mobile,
