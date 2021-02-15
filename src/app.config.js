@@ -10,6 +10,10 @@ export default {
     'pages/link/link',
     'pages/popular/popular',
     'pages/topic/topic',
+    'pages/reservation/reservation',
+    'pages/order/order',
+    'pages/order/detail',
+    'pages/payOrder/pay',
   ],
   window: {
     backgroundTextStyle: 'light',
