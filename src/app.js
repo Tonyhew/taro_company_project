@@ -70,8 +70,8 @@ class App extends Component {
               var country = res.userInfo.country;
               var province = res.userInfo.province;
               var city = res.userInfo.city;
-              if ("" != avatarUrl && "" != nickName) {
-                wx.request({
+              if ("" != avatarUrl && "" != nickName && this.state.count == 1) {
+                Taro.request({
                   url: url + '/UserInfo/updateUserInfo',
                   data: {
                     openid: openidl,
@@ -86,12 +86,12 @@ class App extends Component {
                   header: {//接口返回的数据类型，可以直接解析数据
                     'Content-Type': 'application/json'
                   },
-                  success: function (res) {
-                    // Taro.setStorageSync('userInfo', res.data.data)
-                  },
-                  error: function (res) {
+                }).then(
+                  res => {
+                    setStorageSync('accountInfo', res.data.data)
+                    setGlobalData('accountInfo', res.data.data)
                   }
-                })
+                )
               }
             }
           })
@@ -116,6 +116,38 @@ class App extends Component {
       })
     })
 
+    Taro.request({
+      url: 'https://pv.sohu.com/cityjson?ie=utf-8',
+    }).then(
+      res => {
+        let aaa = res.data.split(' ');
+        let bbb = aaa[4]
+        let ccc = bbb.replace('"', '')
+        let ddd = ccc.replace('"', '')
+        let eee = ddd.replace(',', '')
+        setStorageSync('userip', eee)
+      }
+    )
+    let updateManager = Taro.getUpdateManager()
+    updateManager.onCheckForUpdate((res) => {
+      // 请求完新版本信息的回调
+      console.log(res.hasUpdate)
+    })
+    updateManager.onUpdateReady(() => {
+      Taro.showModal({
+        title: '更新提示',
+        content: '新版本已经准备好，是否重启应用？',
+        success: (res) => {
+          if (res.confirm) {
+            // 新的版本已经下载好，调用 applyUpdate 应用新版本并重启
+            updateManager.applyUpdate()
+          }
+        }
+      })
+    })
+    updateManager.onUpdateFailed(() => {
+      // 新版本下载失败
+    })
   }
 
   componentDidHide() { }
