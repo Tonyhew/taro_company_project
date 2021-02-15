@@ -11,7 +11,6 @@ import optimum from '../../Images/icon/optimum.png'
 class QA extends Component {
 
   componentDidMount() {
-    console.log(this.props)
   }
 
   componentWillUnmount() {
