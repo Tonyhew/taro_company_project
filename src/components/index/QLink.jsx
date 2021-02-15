@@ -15,7 +15,7 @@ class QLink extends Component {
           <Text>会员热门</Text>
         </Navigator>
 
-        <Navigator class="QL_item" url>
+        <Navigator class="QL_item" url='/pages/reservation/reservation'>
           <Image src={FaceConsultation} style="width:80rpx;height:80rpx;"></Image>
           <Text>面诊预约</Text>
         </Navigator>
