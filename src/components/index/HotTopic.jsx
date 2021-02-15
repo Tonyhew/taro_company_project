@@ -5,7 +5,6 @@ import icon1 from '../../Images/icon/icon-1.png'
 class HotTopic extends Component {
 
   componentDidShow() {
-    console.log(this.props)
   }
 
   render() {
