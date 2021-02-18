@@ -36,6 +36,8 @@ class Pay extends Component {
     menu: false,
     shadow: false,
     sign: false,
+    sign_error: false,
+    password: '',
   }
 
   // 倒计时
@@ -243,16 +245,173 @@ class Pay extends Component {
     });
   }
 
-  submit = () => {
+  submit = (t) => {
+    console.log(this.state.list, t.detail)
+    if (this.state.requestMsgNumber == 0) {
+      // this.requestMSG()
+    }
+    let openId = Taro.getStorageSync('openid');
+    var userip = Taro.getStorageSync('userip');
+    if (1 == this.state.pay_type && (this.state.list.paymentMethodLimited == 1 || this.state.list.paymentMethodLimited == 2)) {
+      // 组成微信支付所需参数。
+      var wxpayfrom = {
+        openid: openId,
+        outTradeNo: this.state.list.outTradeNo,
+        payType: this.state.payType,
+        totalFee: this.state.o_amount * 100,
+        tradeType: "JSAPI",
+        notifyUrl: "https://applets.seouleaguer.com/miniapp/pay/notify/order",
+        spbillCreateIp: userip,
+        body: this.state.list.productName,
+        formId: t.detail.formId
+      }
+      Taro.request({
+        url: url + '/pay/createOrder',
+        data: wxpayfrom,
+        method: "POST",
+        header: { //接口返回的数据类型，可以直接解析数据
+          'Content-Type': 'application/json'
+        },
+      }).then(
+        res => {
+          Taro.setStorageSync('wxpay', res.data)
+          this.wxPay(res.data)
+        }
+      )
+    } else if (2 == this.state.pay_type && (this.state.list.paymentMethodLimited == 1 || this.state.list.paymentMethodLimited == 3)) {
+      if (this.state.money >= 0 && this.state.giveMoney >= 0) {
 
+        if (this.state.money == '' || this.state.money == null) {
+          Taro.showToast({
+            icon: 'none',
+            title: '请输入余额消费金额'
+          })
+          return false
+        }
+        else if (this.state.giveMoney === '' || this.state.giveMoney === null) {
+          Taro.showToast({
+            icon: 'none',
+            title: '请输入赠送金消费金额'
+          })
+          return false
+        }
+        else if ((parseInt(this.state.money) + parseInt(this.state.giveMoney)) == this.state.o_amount) {
+          Taro.request({
+            url: url + "/SMS/paymentVerification",
+            data: {
+              phone: this.state.address.mobile
+            },
+            method: "POST",
+            header: { //接口返回的数据类型，可以直接解析数据
+              'Content-Type': 'application/json'
+            },
+          })
+          this.setState({
+            pay: !1,
+            sign: !0,
+            // shadow: !0,
+            form_id: t.detail.formId
+          });
+        } else {
+          Taro.showToast({
+            title: "输入金额有误",
+            icon: "error",
+            duration: 2e3
+          })
+        }
+      } else {
+        //失败通知
+        Taro.showToast({
+          title: "金额不能输入负数",
+          icon: "none",
+          duration: 2e3
+        })
+      }
+    } else {
+      //失败通知
+      Taro.showToast({
+        title: "请选择支付方式",
+        icon: "none",
+        duration: 2e3
+      })
+    }
   }
 
   sign_btn = () => {
+    let t = this.state.password
+    let openid = Taro.getStorageSync('openid')
+    if (t == "" || t == null) {
+      this.setState({
+        sign_error: !0
+      })
+    } else {
+      let couponPrices = 0;
+      if (this.state.coupon_price != null) {
+        couponPrices = this.state.coupon_price
+      }
 
+      if (this.state.money >= 0 && this.state.giveMoney >= 0) {
+        Taro.request({
+          url: url + "/UserInfo/balanceConsumption",
+          data: {
+            openid: openid,
+            outTradeNo: this.state.list.outTradeNo,
+            amountOfConsumption: this.state.money,
+            freeGoldConsumption: this.state.giveMoney,
+            pointsConsumption: 0,
+            couponPrice: couponPrices,
+            userPay: 1,
+            password: this.state.password
+          },
+          method: "POST",
+          header: { //接口返回的数据类型，可以直接解析数据
+            'Content-Type': 'application/json'
+          }
+        }).then(
+          res => {
+            if (res.data.errCode == 0) {
+              var t = res.data;
+              // 用户使用优惠券，修改用户优惠券信息
+              if (this.state.coupon_curr != -1) {
+                Taro.request({
+                  url: url + '/UserCoupon/updateUserCoupon',
+                  data: {
+                    openid: openidl,
+                    id: this.state.coupon[this.state.coupon_curr].id
+                  },
+                  method: "POST",
+                  header: { //接口返回的数据类型，可以直接解析数据
+                    'Content-Type': 'application/json'
+                  },
+                })
+              }
+            } else {
+              Taro.showToast({
+                title: res.data.errMsg,
+                icon: "none",
+                duration: 2e3
+              })
+            }
+          }
+        )
+      } else {
+        // 失败通知
+        Taro.showToast({
+          title: "金额不能输入负数",
+          icon: "none",
+          duration: 2e3
+        })
+      }
+
+    }
   }
 
   sign_close = () => {
-
+    this.setState({
+      shadow: !1,
+      sign: !1,
+      password: ""
+    })
   }
 
   render() {
@@ -444,7 +603,9 @@ class Pay extends Component {
                     type="number"
                     value={this.state.password}
                   />
-                  <View class="sign_tip">密码错误</View>
+                  {
+                    this.state.sign_error ? <View class="sign_tip">密码错误</View> : null
+                  }
                   <View
                     onClick={this.sign_btn.bind(this)}
                     class="sign_btn"
