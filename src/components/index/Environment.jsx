@@ -8,9 +8,6 @@ class Environment extends Component {
     currentIndex: 0
   }
 
-  componentDidShow() {
-  }
-
   handleChange = (e) => {
     this.setState({
       currentIndex: e.detail.current

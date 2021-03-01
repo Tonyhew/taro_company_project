@@ -248,7 +248,7 @@ class Pay extends Component {
   submit = (t) => {
     console.log(this.state.list, t.detail)
     if (this.state.requestMsgNumber == 0) {
-      // this.requestMSG()
+      this.requestMSG()
     }
     let openId = Taro.getStorageSync('openid');
     var userip = Taro.getStorageSync('userip');
@@ -338,8 +338,10 @@ class Pay extends Component {
   }
 
   sign_btn = () => {
+    let that = this
     let t = this.state.password
-    let openid = Taro.getStorageSync('openid')
+    let openid = Taro.getStorageSync('openid');
+    //用户余额支付，未完成。
     if (t == "" || t == null) {
       this.setState({
         sign_error: !0
@@ -385,6 +387,47 @@ class Pay extends Component {
                   },
                 })
               }
+
+              //消息订阅
+              Taro.request({
+                url: url + '/wechat/kefu/Push',
+                data: {
+                  touser: openid,
+                  template_id: "-37_7craO_ro3miIGu924c9mLOGQwOF_wT5nArY3yps",
+                  page: "pages/index/index",
+                  data: {
+                    amount1: {
+                      value: this.state.o_amount
+                    },
+                    thing2: {
+                      value: "您已预约成功"
+                    }
+                  }
+                },
+                method: "POST",
+              })
+              "" != t.data && (
+                this.setState({
+                  shadow: !1,
+                  sign: !1,
+                  password: ""
+                }),
+                //成功通知
+                Taro.showToast({
+                  title: "支付成功",
+                  icon: "success",
+                  duration: 2e3
+                }),
+                //成功后跳转页面
+                setTimeout(function () {
+
+                  3 == that.state.list.orderType ? Taro.redirectTo({
+                    url: "../../pages/group/order"
+                  }) : Taro.redirectTo({
+                    url: "../../pages/order/detail?&outTradeNo=" + that.state.list.outTradeNo
+                  });
+                }, 2e3)
+              );
             } else {
               Taro.showToast({
                 title: res.data.errMsg,

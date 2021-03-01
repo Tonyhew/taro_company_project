@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View } from '@tarojs/components';
-import Taro from '@tarojs/taro';
+import Taro, { eventCenter, getCurrentInstance } from '@tarojs/taro';
 import { set as setGlobalData, get as getGlobalData } from '../../config/global_data'
 import Banner from '../../components/index/Banner';
 import QLink from '../../components/index/QLink';
@@ -56,13 +56,23 @@ export default class Index extends Component {
     }, 1e3);
   }
 
+  $instance = getCurrentInstance()
+
+  componentWillMount() {
+    const onReadyEventId = this.$instance.router.onReady
+    eventCenter.once(onReadyEventId, () => {
+      // onReady 触发后才能获取小程序渲染层的节点
+      Taro.createSelectorQuery().select('.index')
+        .boundingClientRect()
+        .exec(res => {
+          this.setState({
+            loading: false
+          })
+        })
+    })
+  }
+
   componentDidShow() {
-    let that = this
-    setTimeout(function () {
-      that.setState({
-        loading: false
-      })
-    }, 1000)
 
     // 获取banner图片
     Taro.request({
@@ -140,7 +150,6 @@ export default class Index extends Component {
       },
 
     }).then(res => {
-      console.log(res)
       this.setState({
         questionList: res.data.data
       })
@@ -225,7 +234,8 @@ export default class Index extends Component {
       this.setState({
         hotTopicTitle: res.data.data
       })
-    })
+    });
+
     Taro.request({
       url: api + "/TopicType/selectTopicType",
       data: {

@@ -101,7 +101,6 @@ export default class Mine extends Component {
         superMember: res.data.data.superMember,
         superMemberHeight: superMemberHeight
       })
-      console.log(this.state.superMember, this.state.superMemberHeight)
     })
   }
 

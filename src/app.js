@@ -61,15 +61,15 @@ class App extends Component {
           Taro.getUserInfo({
             success: res => {
               //将用户名昵称和头像存入数据库
-              var openidl = Taro.getStorageSync('openid');
+              let openidl = Taro.getStorageSync('openid');
               Taro.setStorageSync('userInfo', res.userInfo)
-              var nickName = res.userInfo.nickName;
-              var avatarUrl = res.userInfo.avatarUrl;
+              let nickName = res.userInfo.nickName;
+              let avatarUrl = res.userInfo.avatarUrl;
               Taro.setStorageSync('avatarUrl', res.userInfo.avatarUrl)
-              var gender = res.userInfo.gender;
-              var country = res.userInfo.country;
-              var province = res.userInfo.province;
-              var city = res.userInfo.city;
+              let gender = res.userInfo.gender;
+              let country = res.userInfo.country;
+              let province = res.userInfo.province;
+              let city = res.userInfo.city;
               if ("" != avatarUrl && "" != nickName && this.state.count == 1) {
                 Taro.request({
                   url: url + '/UserInfo/updateUserInfo',
@@ -148,6 +148,21 @@ class App extends Component {
     updateManager.onUpdateFailed(() => {
       // 新版本下载失败
     })
+
+    Taro.request({
+      url: url + '/HomeModule/selectHomeModule',
+      data: {
+      },
+      method: "POST",
+      header: { //接口返回的数据类型，可以直接解析数据
+        'Content-Type': 'application/json'
+      }
+    }).then(
+      res => {
+        Taro.setStorageSync('homeModuleList', res.data.data)
+      }
+    )
+
   }
 
   componentDidHide() { }

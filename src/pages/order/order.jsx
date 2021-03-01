@@ -201,7 +201,7 @@ class Order extends Component {
         shadow: !1,
         menu: !1
       });
-      var a = {
+      let a = {
         outTradeNo: this.state.orderList[this.state.refund].outTradeNo,
         content: t
       };
@@ -259,7 +259,7 @@ class Order extends Component {
                 icon: "success",
                 duration: 2e3
               });
-              var n = that.state.orderList;
+              let n = that.state.orderList;
               n.splice(a, 1), that.setState({
                 orderList: n
               });
