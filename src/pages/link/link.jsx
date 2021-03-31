@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Taro, { Current } from '@tarojs/taro'
 import { View, Navigator, Image, WebView } from '@tarojs/components';
 import url from '../../config/api';
-import indexPng from '../../Images/resource/index.png'
+import indexPng from '../../image/resource/index.png'
 import '@tarojs/taro/html.css'
 import './link.less'
 class Link extends Component {
@@ -40,13 +40,13 @@ class Link extends Component {
   }
 
   render() {
-    let a = this.state
+    let a = this.state;
     console.log(this.state)
     return (
       <View>
         <View>
           {
-            this.state.list.linkType == 2 ?
+            this.state.list.uniacid == 2 ?
               a.Ahtml !== "" ?
                 <View className="content" dangerouslySetInnerHTML={{ __html: a.Ahtml }}></View>
                 : null

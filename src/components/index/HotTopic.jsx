@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { View, Image, Navigator } from '@tarojs/components'
-import icon1 from '../../Images/icon/icon-1.png'
+import icon1 from '../../image/icon/icon-1.png'
 
 class HotTopic extends Component {
 

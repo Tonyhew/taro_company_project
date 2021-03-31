@@ -3,17 +3,17 @@ import Taro, { getApp, getStorageSync, setStorageSync } from '@tarojs/taro';
 import { View, Image, Text, Button, Navigator } from '@tarojs/components';
 import { set as setGlobalData, get as getGlobalData } from '../../config/global_data';
 import url from '../../config/api';
-import toBePaid from '../../Images/icon/toBePaid.png';
-import paid from '../../Images/icon/paid.png';
-import evaluate from '../../Images/icon/evaluate.png';
-import aftermarket from '../../Images/icon/aftermarket.png';
-import wallet from '../../Images/icon/wallet.png';
-import integral from '../../Images/icon/integral.png';
-import cardTicket from '../../Images/icon/cardTicket.png';
-import customerService from '../../Images/icon/customerService.png';
-import address from '../../Images/icon/address.png';
-import task from '../../Images/icon/task.png';
-import proposal from '../../Images/icon/proposal.png';
+import toBePaid from '../../image/icon/toBePaid.png';
+import paid from '../../image/icon/paid.png';
+import evaluate from '../../image/icon/evaluate.png';
+import aftermarket from '../../image/icon/aftermarket.png';
+import wallet from '../../image/icon/wallet.png';
+import integral from '../../image/icon/integral.png';
+import cardTicket from '../../image/icon/cardTicket.png';
+import customerService from '../../image/icon/customerService.png';
+import address from '../../image/icon/address.png';
+import task from '../../image/icon/task.png';
+import proposal from '../../image/icon/proposal.png';
 import Skeleton from './mine_skeleton'
 import './mine.less'
 
@@ -36,6 +36,8 @@ export default class Mine extends Component {
     cardRule: [],
     superMember: [],
     superMemberHeight: 0,
+    navigation_icon1: [],
+    navigation_icon2: [],
   }
 
 
@@ -59,7 +61,7 @@ export default class Mine extends Component {
   }
 
   componentDidShow() {
-
+    
     let that = this
     setTimeout(() => {
       that.setState({
@@ -102,6 +104,28 @@ export default class Mine extends Component {
         superMemberHeight: superMemberHeight
       })
     })
+
+    // 获取我的页面导航
+    Taro.request({
+      url: url + '/Recharge/selectRecharge',
+      data: {
+        xkey: "navigationIcon"
+      },
+      method: "POST",
+      header: { //接口返回的数据类型，可以直接解析数据
+        'Content-Type': 'application/json'
+      },
+    }).then(
+      res => {
+        res.data.data[0].content = JSON.parse(res.data.data[0].content);
+        this.setState({
+          navigation_icon1: res.data.data[0].content.navigation_icon1,
+          navigation_icon2: res.data.data[0].content.navigation_icon2
+        })
+
+      }
+    )
+
   }
 
 
@@ -163,6 +187,7 @@ export default class Mine extends Component {
   }
 
   componentDidUpdate() {
+
     Taro.getSetting({
       success: (res) => {
         if (res.authSetting['scope.userInfo']) {
@@ -299,19 +324,19 @@ export default class Mine extends Component {
               {/* 订单 START */}
               <View class="list">
                 <View class="list_content">
-                  <Navigator class="item" url="/pages/order/order?orderStatus=1">
+                  <Navigator class="item" url="/pages/pagePay/order/order?orderStatus=1">
                     <Image src={toBePaid}></Image>
                     <View>待付款</View>
                   </Navigator>
-                  <Navigator class="item" url="/pages/order/order?orderStatus=2">
+                  <Navigator class="item" url="/pages/pagePay/order/order?orderStatus=2">
                     <Image src={paid}></Image>
                     <View>已付款</View>
                   </Navigator>
-                  <Navigator class="item" url="/pages/order/order?orderStatus=3">
+                  <Navigator class="item" url="/pages/pagePay/order/order?orderStatus=3">
                     <Image src={evaluate}></Image>
                     <View>待评价</View>
                   </Navigator>
-                  <Navigator class="item" url="/pages/order/order?orderStatus=4">
+                  <Navigator class="item" url="/pages/pagePay/order/order?orderStatus=4">
                     <Image src={aftermarket}></Image>
                     <View>退售后</View>
                   </Navigator>
@@ -321,45 +346,41 @@ export default class Mine extends Component {
 
               {/* 快速链接 START */}
               <View class="list2">
-                <View class="list_content">
-                  <Navigator class="item" url="../over/over">
-                    <Image src={wallet}></Image>
-                    <View>盐值钱包</View>
-                  </Navigator>
-                  <Navigator class="item" url="../score/score">
-                    <Image src={integral}></Image>
-                    <View>盐值积分</View>
-                  </Navigator>
-                  <Navigator class="item" url="../coupon/coupon">
-                    <Image src={cardTicket}></Image>
-                    <View>盐值卡券</View>
-                  </Navigator>
-                  <View class="item">
-                    <Button class="customer_service" open-type="contact" session-from="weapp">
-                      <Image src={customerService}></Image>
-                    </Button>
-                    <View style="height:10rpx"></View>
-                    <View>客服中心</View>
-                  </View>
+                {
+                  this.state.navigation_icon1.map((item, index) => {
+                    
+                    return (
+                      <View class="list_content" key={index}>
+                        <Navigator class="item" url={item.navigationUrl}>
+                          <Image src={item.iconUrl}></Image>
+                          <View>{item.navigation}</View>
+                        </Navigator>
+                      </View>
+                    )
+                  })
+                }
+
+                {
+                  this.state.navigation_icon2.map((item, index) => {
+                    return (
+                      <View class="list_content" key={index}>
+                        <Navigator class="item" url={item.navigationUrl}>
+                          <Image src={item.iconUrl}></Image>
+                          <View>{item.navigation}</View>
+                        </Navigator>
+                      </View>
+                    )
+                  })
+                }
+
+                <View class="item" style={{ width: '25%' }}>
+                  <Button class="customer_service" open-type="contact" session-from="weapp">
+                    <Image src={customerService}></Image>
+                  </Button>
+                  <View style="height:10rpx"></View>
+                  <View>客服中心</View>
                 </View>
-                <View class="list_content">
-                  <Navigator class="item" url="../address/address">
-                    <Image src={address}></Image>
-                    <View>地址管理</View>
-                  </Navigator>
-                  <Navigator class="item" url="#">
-                    <Image src={evaluate}></Image>
-                    <View>服务评价</View>
-                  </Navigator>
-                  <Navigator class="item" url="../calendar/calendar">
-                    <Image src={task}></Image>
-                    <View>每日签到</View>
-                  </Navigator>
-                  <Navigator class="item" url="#">
-                    <Image src={proposal}></Image>
-                    <View>反馈建议</View>
-                  </Navigator>
-                </View>
+                。
               </View>
               {/* 快速链接 END */}
 

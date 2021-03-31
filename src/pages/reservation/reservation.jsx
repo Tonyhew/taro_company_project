@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { View, Image, Input, Text, P } from '@tarojs/components';
 import Taro, { getStorageSync } from '@tarojs/taro';
 import classNames from 'classnames';
-import icon1 from '../../Images/icon/icon_1.png';
-import icon2 from '../../Images/icon/icon_2.png';
-import left from '../../Images/resource/left.png';
+import icon1 from '../../image/icon/icon_1.png';
+import icon2 from '../../image/icon/icon_2.png';
+import left from '../../image/resource/left.png';
 import api from '../../config/api';
 import DatePicker from '../../components/reservation/Datepicker'
 import './reservation.less';

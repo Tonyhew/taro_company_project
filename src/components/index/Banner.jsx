@@ -8,6 +8,9 @@ class Banner extends Component {
     let t = a.currentTarget.dataset.link,
       n = a.currentTarget.dataset.appid,
       e = a.currentTarget.dataset.linkType
+    if(t == '#') {
+      return false
+    }
     "" != n && null != n ? Taro.navigateToMiniProgram({
       appId: n,
       path: "",
@@ -19,13 +22,13 @@ class Banner extends Component {
           content: "跳转失败"
         });
       }
-    }) : "" != t && null != t && (-1 != t.indexOf("../") ? Taro.navigateTo({
+    }) : "" != t && null != t ? Taro.navigateTo({
       url: t
     }) : (t = escape(t), Taro.navigateTo({
       url: "../link/link?&id=" + t,
 
     }
-    )));
+    ));
 
   }
 

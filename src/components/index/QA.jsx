@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import Taro from '@tarojs/taro'
 import { View, Image, ScrollView, Text } from '@tarojs/components'
-import collection1 from '../../Images/icon/collection1.png'
-import collection2 from '../../Images/icon/collection2.png'
-import fabulous1 from '../../Images/icon/fabulous1.png'
-import fabulous2 from '../../Images/icon/fabulous2.png'
-import popular from '../../Images/icon/popular.png'
-import optimum from '../../Images/icon/optimum.png'
+import collection1 from '../../image/icon/collection1.png'
+import collection2 from '../../image/icon/collection2.png'
+import fabulous1 from '../../image/icon/fabulous1.png'
+import fabulous2 from '../../image/icon/fabulous2.png'
+import popular from '../../image/icon/popular.png'
+import optimum from '../../image/icon/optimum.png'
 
 class QA extends Component {
 

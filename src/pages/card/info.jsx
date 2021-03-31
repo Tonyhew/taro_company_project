@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import Taro, { Current, getStorageSync } from '@tarojs/taro';
 import { View, Image, Input } from '@tarojs/components';
 import { set as setGlobalData, get as getGlobalData } from '../../config/global_data';
-import theme3_22 from '../../Images/resource/theme3_22.png';
-import theme3_33 from '../../Images/resource/theme3_33.png';
-import theme3_34 from '../../Images/resource/theme3_34.png';
+import theme3_22 from '../../image/resource/theme3_22.png';
+import theme3_33 from '../../image/resource/theme3_33.png';
+import theme3_34 from '../../image/resource/theme3_34.png';
 import url from '../../config/api'
 import './info.less'
 
@@ -260,11 +260,11 @@ class Info extends Component {
         <View class="title">会员卡绑定信息</View>
         <View class="item_c">
           <Image src={theme3_22}></Image>
-          <View>{getStorageSync('userInfo').name}</View>
+          <View>{getStorageSync('userMeta').name}</View>
         </View>
         <View class="item_c">
           <Image src={theme3_33}></Image>
-          <View>{getStorageSync('userInfo').mobile}</View>
+          <View>{getStorageSync('userMeta').mobile}</View>
         </View>
         <View onClick={this.reset_member_info.bind(this)} class="tip">信息修改</View>
       </View>
@@ -283,7 +283,7 @@ class Info extends Component {
             placeholder="手机号"
             placeholderStyle="color:#999999;"
             type="number"
-            value={getStorageSync('userInfo').mobile}></Input>
+            value={getStorageSync('userMeta').mobile}></Input>
         </View>
         <View class="item code" style="border:1rpx #dedede solid;">
           <Input
@@ -320,13 +320,13 @@ class Info extends Component {
       <View>
 
         <View class="top">
-          <Image class="back" mode='widthFix' src={getStorageSync('userInfo').card != 1 ? JSON.parse(getGlobalData('cardRule')[2].content).card_status2 : JSON.parse(getGlobalData('cardRule')[2].content).card_status3}></Image>
+          <Image class="back" mode='widthFix' src={getStorageSync('userMeta').card != 1 ? JSON.parse(getGlobalData('cardRule')[2].content).card_status2 : JSON.parse(getGlobalData('cardRule')[2].content).card_status3}></Image>
           {
-            getStorageSync('userInfo').card == 1 ? <View className='blueCard'>Blue Card</View> : null
+            getStorageSync('userMeta').card == 1 ? <View className='blueCard'>Blue Card</View> : null
           }
-          <View class={getStorageSync('userInfo').card == 1 ? 'userinfo' : 'userinfo2'}>
-            <Image src={getStorageSync('userInfo').avatar}></Image>
-            <View>{getStorageSync('userInfo').nick}</View>
+          <View class={getStorageSync('userMeta').card == 1 ? 'userinfo' : 'userinfo2'}>
+            <Image src={getStorageSync('userMeta').avatar}></Image>
+            <View>{getStorageSync('userMeta').nick}</View>
           </View>
         </View>
 

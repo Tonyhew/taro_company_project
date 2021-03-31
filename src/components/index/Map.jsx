@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { View, Image } from '@tarojs/components'
 import Taro from '@tarojs/taro'
-import location from '../../Images/icon/location.png'
+import location from '../../image/icon/location.png'
 import { set as setGlobalData, get as getGlobalData } from '../../config/global_data'
 
 

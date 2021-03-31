@@ -47,7 +47,7 @@ class App extends Component {
           console.log(res)
           if (res.errMsg == "getUserInfo:ok") {
             setGlobalData('userInfo', res.userInfo)
-            setStorageSync('userInfo', res.userInfo)
+            // setStorageSync('userInfo', res.userInfo)
           }
         }
       })

@@ -3,9 +3,9 @@ import Taro from '@tarojs/taro'
 import { View, Image, Swiper, SwiperItem, Text, Button, Navigator } from '@tarojs/components'
 import url from '../../config/api'
 import { Current } from '@tarojs/taro'
-import theme3_27 from '../../Images/resource/theme3_27.png'
+import theme3_27 from '../../image/resource/theme3_27.png'
 import './detail.less'
-import relieved from '../../Images/icon/relieved.png'
+import relieved from '../../image/icon/relieved.png'
 
 var dd;
 class Detail extends Component {

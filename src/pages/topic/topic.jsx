@@ -3,7 +3,7 @@ import Taro from '@tarojs/taro';
 import { View, Image } from '@tarojs/components';
 import classNames from 'classnames'
 import SearchBox from '../../components/topic/searchBox';
-import icon1 from '../../Images/icon/icon-1.png'
+import icon1 from '../../image/icon/icon-1.png'
 import url from '../../config/api';
 import './topic.less'
 

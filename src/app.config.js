@@ -1,19 +1,20 @@
 export default {
   pages: [
-    'pages/index/index', 
-    'pages/project/project',
-    'pages/scores/scores',
+    'pages/index/index',
     'pages/mine/mine',
+    'pages/project/project',
+    'pages/scoreMall/scoreMall',
+    'pages/score/score',
     'pages/service/detail',
     'pages/card/card',
     'pages/card/info',
     'pages/link/link',
     'pages/popular/popular',
     'pages/topic/topic',
+    'pages/topic/reason',
+    'pages/topic/manifesto',
     'pages/reservation/reservation',
-    'pages/order/order',
-    'pages/order/detail',
-    'pages/payOrder/pay',
+    'pages/doctorSchedule/doctorSchedule',
   ],
   window: {
     backgroundTextStyle: 'light',
@@ -29,28 +30,39 @@ export default {
         pagePath: "pages/index/index",
         text: "首页",
         // 未点击时显示的图片
-        iconPath: "Images/icon/theme3_63.png",
+        iconPath: "image/icon/theme3_63.png",
         // 点击后显示的图片
-        selectedIconPath: "Images/icon/theme3_64.png"
+        selectedIconPath: "image/icon/theme3_64.png"
       },
       {
         pagePath: "pages/project/project",
         text: "项目",
-        iconPath: "Images/icon/theme3_67.png",
-        selectedIconPath: "Images/icon/theme3_68.png"
+        iconPath: "image/icon/theme3_67.png",
+        selectedIconPath: "image/icon/theme3_68.png"
       },
       {
-        pagePath: "pages/scores/scores",
+        pagePath: "pages/scoreMall/scoreMall",
         text: "积分",
-        iconPath: "Images/icon/theme3_61.png",
-        selectedIconPath: "Images/icon/theme3_62.png"
+        iconPath: "image/icon/theme3_61.png",
+        selectedIconPath: "image/icon/theme3_62.png"
       },
       {
         pagePath: "pages/mine/mine",
         text: "我的",
-        iconPath: "Images/icon/theme3_65.png",
-        selectedIconPath: "Images/icon/theme3_66.png"
+        iconPath: "image/icon/theme3_65.png",
+        selectedIconPath: "image/icon/theme3_66.png"
       },
     ]
-  }
+  },
+  subPackages: [
+    {
+      "root": "pages/pagePay/",
+      "pages": [
+        "payOrder/pay",
+        "orderDetail/detail",
+        "order/order",
+        "accountAssets/aasets"
+      ]
+    }
+  ]
 }
