@@ -1,0 +1,160 @@
+.over {
+  .assets {
+    width: 100%;
+    height: 420rpx;
+    background-image: linear-gradient(-180deg, #79c1f6 10%, #448eea 100%);
+
+    .totalAssets {
+      text-align: center;
+      color: #ffffff;
+      font-size: 28rpx;
+      padding-top: 40rpx;
+    }
+    .totalAssets > text {
+      display: block;
+      margin: 40rpx 0rpx;
+      font-family: SourceHanSansCN-Bold;
+      font-size: 100rpx;
+      font-weight: bolder;
+      letter-spacing: 0;
+    }
+
+    .assetDetails {
+      margin: 35rpx 35rpx;
+      padding: 30rpx 20rpx;
+      height: 98rpx;
+      background: #ffffff;
+      border-radius: 12rpx 12rpx 0 0;
+      display: flex;
+
+      .balance {
+        margin: 20rpx;
+        width: 35%;
+        text-align: center;
+      }
+
+      .balance > view:nth-child(1) {
+        font-family: SourceHanSansCN-Bold;
+        font-size: 60rpx;
+        font-weight: bolder;
+        color: #3b81e9;
+        letter-spacing: 0;
+      }
+
+      .balance > view:nth-child(2) {
+        margin-top: 20rpx;
+        font-family: SourceHanSansCN-Bold;
+        font-size: 28rpx;
+        color: #808080;
+        letter-spacing: 0;
+      }
+
+      .line {
+        margin: 0rpx 70rpx;
+        border: 1rpx solid #808080;
+      }
+    }
+  }
+
+  .recharge {
+    margin-bottom: 20rpx;
+    width: 20%;
+    margin: 55rpx auto;
+    padding: 15rpx 50rpx;
+    text-align: center;
+    font-family: SourceHanSansCN-Medium;
+    font-size: 40rpx;
+    color: #ffffff;
+    letter-spacing: 0;
+    background: #3b81e9;
+    border-radius: 200rpx;
+  }
+
+  .billingDetails {
+    margin-top: 180rpx;
+  }
+
+  .billingDetails .top {
+    display: flex;
+    margin-left: 20rpx;
+  }
+
+  .billingDetails .top > view:nth-child(1) {
+    width: 8rpx;
+    height: 40rpx;
+    background: #3b81e8;
+  }
+
+  .billingDetails .top > view:nth-child(2) {
+    margin-left: 20rpx;
+    font-family: SourceHanSansCN-Bold;
+    font-size: 36rpx;
+    color: #4a4a4a;
+    letter-spacing: 0;
+  }
+
+  .billingDetails .details {
+    margin: 20rpx;
+    width: 100%;
+    display: inline-block;
+  }
+
+  .billingDetails .details .time {
+    padding: 20rpx;
+    font-size: 36rpx;
+    letter-spacing: 0;
+    width: 25%;
+  }
+
+  .billingDetails .details .time > view:nth-child(1) {
+    font-family: SourceHanSansCN-Medium;
+    color: #4a4a4a;
+  }
+
+  .billingDetails .details .time > view:nth-child(2) {
+    margin-top: 20rpx;
+    font-family: SourceHanSansCN-Normal;
+    color: #9b9b9b;
+  }
+
+  .billingDetails .details .content {
+    margin-top: -120rpx;
+    margin-left: 158rpx;
+    width: 75%;
+  }
+
+  .billingDetails .details .content > view:nth-child(1) {
+    font-family: SourceHanSansCN-Medium;
+    font-size: 36rpx;
+    font-weight: bolder;
+    color: #4a4a4a;
+    letter-spacing: 0;
+  }
+
+  .billingDetails .details .content > view:nth-child(2) {
+    float: right;
+    margin-right: 20rpx;
+    margin-top: -40rpx;
+    font-family: SourceHanSansCN-Bold;
+    font-size: 36rpx;
+    letter-spacing: 0;
+  }
+
+  .billingDetails .details .content > view:nth-child(3) {
+    margin-top: 20rpx;
+    font-family: SourceHanSansCN-Normal;
+    font-size: 36rpx;
+    color: #9b9b9b;
+    letter-spacing: 0;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .billingDetails .details .splitLine {
+    margin-top: 20rpx;
+    margin-left: 158rpx;
+    width: 72%;
+    border: 1px solid #e2e2e2;
+  }
+}
