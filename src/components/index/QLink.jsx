@@ -10,7 +10,7 @@ class QLink extends Component {
   render() {
     return (
       <View class="QLink" style="height:120rpx; display: flex;">
-        <Navigator class="QL_item" url='/pages/card/card'>
+        <Navigator class="QL_item" url='/topicComponent/card/card'>
           <Image src={member} style="width:80rpx;height:80rpx;"></Image>
           <Text>会员热门</Text>
         </Navigator>

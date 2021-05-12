@@ -199,7 +199,7 @@ class Info extends Component {
 
   reset_member_info = () => {
     Taro.navigateTo({
-      url: '/pages/card/info?edit=3'
+      url: '/topicComponent/card/info?edit=3'
     })
   }
 
@@ -313,6 +313,12 @@ class Info extends Component {
           style="background:#518eeb;">确定</View>
       </View>
     )
+  }
+
+  componentWillUnmount = () => {
+    this.setState = (state, callback) => {
+      return;
+    };
   }
 
   render() {

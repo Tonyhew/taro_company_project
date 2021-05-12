@@ -34,7 +34,7 @@ class Card extends Component {
       success: (res) => {
         console.log(res)
         var signs = false,
-            couponType = false;
+          couponType = false;
         if (res.data.data.card === 1 && res.data.data.prize === -1) {
           signs = true;
         }
@@ -55,9 +55,9 @@ class Card extends Component {
     console.log(t)
     if (this.state.authorize) {
       1 == t ? Taro.navigateTo({
-        url: "/pages/card/info?edit=1"
+        url: "/topicComponent/card/info?edit=1"
       }) : 2 == t && wx.navigateTo({
-        url: "/pages/card/info?edit=2"
+        url: "/topicComponent/card/info?edit=2"
       });
     } else {
       Taro.showToast({
@@ -114,6 +114,13 @@ class Card extends Component {
         </View>
       </View>
     )
+  }
+
+
+  componentWillUnmount = () => {
+    this.setState = (state, callback) => {
+      return;
+    };
   }
 
   render() {

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import Taro from '@tarojs/taro';
 import { View, Text } from '@tarojs/components';
-import url from '../../../config/api';
-import { getDateInfo } from '../../../utils/activity';
+import url from '../../config/api';
+import { getDateInfo } from '../../utils/activity';
 import './aasets.less';
 
 
@@ -51,6 +51,13 @@ class AccountAssets extends Component {
         })
       }
     )
+  }
+
+
+  componentWillUnmount = () => {
+    this.setState = (state, callback) => {
+      return;
+    };
   }
 
   render() {

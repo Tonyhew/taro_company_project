@@ -10,8 +10,8 @@ import {
   Icon,
   Button,
 } from '@tarojs/components';
-import url from '../../../config/api';
-import couponSelected from '../../../image/icon/couponSelected.png'
+import url from '../../config/api';
+import couponSelected from '../../image/icon/couponSelected.png'
 import './pay.less'
 
 
@@ -87,7 +87,7 @@ class Pay extends Component {
   }
 
   componentDidShow() {
-    
+
 
     let outTradeNol = Current.router.params.outTradeNo
     let openId = Taro.getStorageSync('openid');
@@ -149,6 +149,13 @@ class Pay extends Component {
       }
     )
 
+  }
+
+
+  componentWillUnmount = () => {
+    this.setState = (state, callback) => {
+      return;
+    };
   }
 
   input = (e) => {

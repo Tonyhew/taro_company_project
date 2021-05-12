@@ -13,7 +13,6 @@ class Popular extends Component {
   }
 
   componentDidShow() {
-    console.log(Current.router.params.popularType)
     Taro.request({
       url: api + '/Popular/selectPopular',
       data: {
@@ -34,13 +33,19 @@ class Popular extends Component {
     })
   }
 
+
+  componentWillUnmount = () => {
+    this.setState = (state, callback) => {
+      return;
+    };
+  }
+
   render() {
     return (
       <View>
         <View class="honorpicture">
           {
             this.state.popularList.map((popularListItem, index) => {
-              console.log(popularListItem)
               return (
                 <View class="popular" key={index}>
                   <View class="title2">

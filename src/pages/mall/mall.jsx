@@ -1,29 +1,42 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import Taro from '@tarojs/taro'
 
-
-class Topic extends Component {
+class Mall extends Component {
 
   componentDidShow() {
-    Taro.redirectTo({
-      url: '/topicComponent/topic/topic'
+    Taro.switchTab({
+      url: '/pages/scoreMall/scoreMall'
     })
   }
+
 
   componentWillUnmount = () => {
     this.setState = (state, callback) => {
       return;
     };
   }
-  
+
   render() {
-    return null
+    return (
+      <></>
+    )
   }
 
 }
 
 
-export default Topic
+export default Mall
+
+
+
+
+
+
+
+
+
+
+
 
 
 

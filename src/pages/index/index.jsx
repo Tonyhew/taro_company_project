@@ -58,7 +58,7 @@ export default class Index extends Component {
 
   $instance = getCurrentInstance()
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const onReadyEventId = this.$instance.router.onReady
     eventCenter.once(onReadyEventId, () => {
       // onReady 触发后才能获取小程序渲染层的节点
@@ -236,6 +236,7 @@ export default class Index extends Component {
       })
     });
 
+    // 热门话题
     Taro.request({
       url: api + "/TopicType/selectTopicType",
       data: {
@@ -254,6 +255,7 @@ export default class Index extends Component {
       })
     })
 
+    // 医院环境
     Taro.request({
       method: 'GET',
       url: api + '/HomeModule/selectHomeModuleById',
@@ -345,13 +347,13 @@ export default class Index extends Component {
                   /> : null
               }
 
-              {/* 快速问答 */}
+              {/* 快速问答 */} 
               <QA
                 questionListTitle={this.state.questionListTitle}
                 questionListData={this.state.questionList}
               />
 
-              {/* 热门话题 */}
+              {/* 热门话题 */}                               
               <HotTopic
                 hotTopicTitle={this.state.hotTopicTitle}
                 hotTopicList={this.state.hotTopicList}

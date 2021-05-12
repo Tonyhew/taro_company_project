@@ -144,6 +144,13 @@ class DoctorList extends Component {
     })
   }
 
+
+  componentWillUnmount = () => {
+    this.setState = (state,callback)=>{
+      return;
+    };
+}
+
   render() {
 
     return (

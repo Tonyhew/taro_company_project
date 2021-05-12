@@ -1,0 +1,124 @@
+.nav {
+  padding: 30rpx;
+  display: flex;
+  justify-content: center;
+  color: #4a4a4a;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 99;
+  background: #fff;
+  box-sizing: border-box;
+
+  .tabs {
+    margin: 0 65rpx;
+    width: 13%;
+    font-family: SourceHanSansCN-Bold;
+    font-size: 26rpx;
+    text-align: center;
+  }
+
+  .a {
+    height: 50rpx;
+    color: #4a4a4a;
+    border-bottom: 8rpx solid #3b81e9;
+  }
+}
+
+.coupon_list {
+  width: 100%;
+  padding-top: 140rpx;
+  position: absolute;
+
+  .itme {
+    display: flex;
+    background: #ffffff;
+    box-shadow: 0 2px 6px 2px rgba(226, 226, 226, 0.5);
+    border-radius: 6px;
+    margin: 20rpx;
+
+    .white {
+      padding: 40rpx 30rpx;
+      width: 75%;
+      display: inline-block;
+
+      .name {
+        font-family: SourceHanSansCN-Bold;
+        font-size: 1.2em;
+        color: #474646;
+        margin-right: 130rpx;
+      }
+
+      .condition {
+        margin-top: 20rpx;
+        font-family: SourceHanSansCN-Medium;
+        font-size: 0.6rem;
+        color: #3b81e9;
+      }
+
+      .period {
+        font-family: SourceHanSansCN-Medium;
+        font-size: 0.7rem;
+        color: #9b9b9b;
+        margin-top: 20rpx;
+      }
+
+      .day {
+        border: 1px solid #e7455a;
+        font-family: SourceHanSansCN-Medium;
+        font-size: 0.8em;
+        color: #e7455a;
+        float: right;
+        position: relative;
+        top: -38rpx;
+        padding: 0 10rpx;
+        margin-right: 6rpx;
+      }
+    }
+
+    .useImages {
+      background: url(http://video.seouleaguer.com/use.png) no-repeat;
+      background-position: 384rpx 20rpx;
+      background-size: 25%;
+    }
+
+    .expiredImages {
+      background: url(http://video.seouleaguer.com/expired.png) no-repeat;
+      background-position: 384rpx 20rpx;
+      background-size: 25%;
+    }
+  }
+}
+
+.coupon_list .itme .white .images image {
+  height: 120rpx;
+  width: 120rpx;
+}
+
+.coupon_list .itme .blue {
+  border-radius: 0 12rpx 12rpx 0;
+  background-image: linear-gradient(-135deg, #79c1f6 0%, #4993ec 100%);
+  text-align: center;
+}
+
+.coupon_list .itme .blue > view:nth-child(1) {
+  /* padding-top: 40rpx; */
+  font-family: SourceHanSansCN-Bold;
+  font-size: 36rpx;
+  color: #ffffff;
+  padding: 30rpx;
+  margin-top: 60rpx;
+}
+.coupon_list .itme .gray {
+  border-radius: 0 6px 6px 0;
+  background: #b2b2b2;
+  text-align: center;
+}
+.coupon_list .itme .gray > view:nth-child(1) {
+  font-family: SourceHanSansCN-Bold;
+  font-size: 36rpx;
+  color: #ffffff;
+  padding: 30rpx;
+  margin-top: 60rpx;
+}

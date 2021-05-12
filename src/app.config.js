@@ -1,20 +1,31 @@
 export default {
   pages: [
+    // tab导航 --Start--
     'pages/index/index',
     'pages/mine/mine',
     'pages/project/project',
     'pages/scoreMall/scoreMall',
-    'pages/score/score',
+    // tab导航 --End--
+
+    // no data page
+    'pages/activity/activity',
+
+    // 
     'pages/service/detail',
-    'pages/card/card',
-    'pages/card/info',
     'pages/link/link',
-    'pages/popular/popular',
-    'pages/topic/topic',
-    'pages/topic/reason',
-    'pages/topic/manifesto',
+
+    // 客户预约登记
     'pages/reservation/reservation',
+
+    // 医生排班
     'pages/doctorSchedule/doctorSchedule',
+
+    // 页面跳转（分包之后路径无法对应，需跳转定位）
+    'pages/mall/mall',
+    'pages/score/score',
+    'pages/topic/topic',
+    'pages/coupon/couponNew',
+    'pages/address/address',
   ],
   window: {
     backgroundTextStyle: 'light',
@@ -56,12 +67,26 @@ export default {
   },
   subPackages: [
     {
-      "root": "pages/pagePay/",
+      "root": "pagePay/",
       "pages": [
         "payOrder/pay",
         "orderDetail/detail",
         "order/order",
-        "accountAssets/aasets"
+        "accountAssets/aasets",
+        "coupon/couponNewPage",
+        "address/address",
+        "address/edit_address",
+      ]
+    }, {
+      "root": "topicComponent/",
+      "pages": [
+        "popular/popular",
+        "topic/topic",
+        "topic/reason",
+        "topic/manifesto",
+        "card/card",
+        "card/info",
+        "score/score"
       ]
     }
   ]

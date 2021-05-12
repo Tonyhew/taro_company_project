@@ -39,6 +39,13 @@ class Link extends Component {
 
   }
 
+
+  componentWillUnmount = () => {
+    this.setState = (state, callback) => {
+      return;
+    };
+  }
+
   render() {
     let a = this.state;
     console.log(this.state)

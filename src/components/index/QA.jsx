@@ -14,7 +14,7 @@ class QA extends Component {
   }
 
   componentWillUnmount() {
-    this.setState = (state,callback)=>{
+    this.setState = (state, callback) => {
       return;
     };
   }
@@ -22,7 +22,7 @@ class QA extends Component {
   phonefull = (e) => {
     let id = e.currentTarget.dataset.popularType;
     Taro.navigateTo({
-      url: '/pages/popular/popular?&popularType=' + id
+      url: '/topicComponent/popular/popular?&popularType=' + id
     })
   }
 
@@ -44,10 +44,18 @@ class QA extends Component {
                     </View>
                     <View class="titleName">{quesList.titleName}</View>
                     <View style="display: inline-flex;float: right;">
-                      <Image
-                        class={quesList.titleType == 1 ? 'popularimag' : 'optimumimag'}
-                        src={quesList.titleType == 1 ? popular : optimum}
-                      ></Image>
+                      {
+                        quesList.titleType == 1 ?
+                          <Image
+                            class={'popularimag'}
+                            src={popular}
+                          ></Image> :
+                          <Image
+                            class={'optimumimag'}
+                            src={optimum}
+                          ></Image>
+                      }
+                      
                     </View>
                     <View class="splitLine"></View>
                     <View class="under">

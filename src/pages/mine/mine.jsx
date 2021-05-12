@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Taro, { getApp, getStorageSync, setStorageSync } from '@tarojs/taro';
+import Taro, { getApp, getStorageSync, setStorageSync, eventCenter, getCurrentInstance } from '@tarojs/taro';
 import { View, Image, Text, Button, Navigator } from '@tarojs/components';
 import { set as setGlobalData, get as getGlobalData } from '../../config/global_data';
 import url from '../../config/api';
@@ -28,6 +28,7 @@ export default class Mine extends Component {
     list: [],
     authorize: false,
     hasUserInfo: false,
+    canIUseGetUserProfile: false,
     canIUse: Taro.canIUse('button.open-type.getUserInfo'),
     number1: 0,
     number2: 0,
@@ -38,6 +39,77 @@ export default class Mine extends Component {
     superMemberHeight: 0,
     navigation_icon1: [],
     navigation_icon2: [],
+  }
+
+  // 我的页面骨架屏
+  $instance = getCurrentInstance()
+  UNSAFE_componentWillMount() {
+    const onReadyEventId = this.$instance.router.onReady
+    eventCenter.once(onReadyEventId, () => {
+      // onReady 触发后才能获取小程序渲染层的节点
+      Taro.createSelectorQuery().select('.index')
+        .boundingClientRect()
+        .exec(res => {
+          this.setState({
+            loading: false
+          })
+        })
+    })
+  }
+
+
+  getUserProfile = (e) => {
+
+    wx.getUserProfile({
+      desc: '用于完善会员资料', // 声明获取用户个人信息后的用途，后续会展示在弹窗中，请谨慎填写
+      success: (res) => {
+        let that = this
+        // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
+
+        //将用户名昵称和头像存入数据库
+        let openidl = Taro.getStorageSync('openid');
+        let nickName = res.userInfo.nickName;
+        let avatarUrl = res.userInfo.avatarUrl;
+        Taro.setStorageSync('avatarUrl', res.userInfo.avatarUrl)
+        let gender = res.userInfo.gender;
+        let country = res.userInfo.country;
+        let province = res.userInfo.province;
+        let city = res.userInfo.city;
+        if ("" != avatarUrl && "" != nickName && this.state.count == 1) {
+          Taro.request({
+            url: url + '/UserInfo/updateUserInfo',
+            data: {
+              openid: openidl,
+              nick: nickName,
+              avatar: avatarUrl,
+              gender: gender,
+              country: country,
+              province: province,
+              city: city
+            },
+            method: "POST",
+            header: {//接口返回的数据类型，可以直接解析数据
+              'Content-Type': 'application/json'
+            },
+          }).then(
+            res => {
+              this.setState({
+                count: 2,
+              })
+              Taro.setStorageSync('hasUserInfo', true)
+              Taro.setStorageSync('userInfo', res.data.data)
+              console.log(res)
+              that.setState({
+                userInfo: res.data.data,
+                cardRule: getStorageSync('cardRule'),
+                hasUserInfo: true,
+              })
+            }
+          )
+        }
+      }
+    })
+
   }
 
 
@@ -61,13 +133,32 @@ export default class Mine extends Component {
   }
 
   componentDidShow() {
-    
-    let that = this
-    setTimeout(() => {
-      that.setState({
-        loading: false
+
+    if (getStorageSync('userInfo') != '') {
+      Taro.getUserInfo({
+        success: (res) => {
+          console.log(res)
+          if (res.errMsg == "getUserInfo:ok") {
+            Taro.setStorageSync('hasUserInfo', true)
+            this.setState({
+              userInfo: getStorageSync('userMeta'),
+              cardRule: getStorageSync('cardRule'),
+              hasUserInfo: true,
+            })
+          }
+        }
       })
-    }, 1000)
+    }
+
+    this.setState({
+      hasUserInfo: getStorageSync('hasUserInfo')
+    })
+
+    if (wx.getUserProfile) {
+      this.setState({
+        canIUseGetUserProfile: true
+      })
+    }
 
     setGlobalData('hasUserInfo', this.state.hasUserInfo)
     Taro.request({
@@ -128,13 +219,26 @@ export default class Mine extends Component {
 
   }
 
+  getPhoneNumber = (e) => {
+    console.log(e)
+  }
+
 
   ButtonIsShow = () => {
+    console.log(this.state.canIUseGetUserProfile)
     return (
-      <View class="Button">
-        <Button openType="getUserInfo" onClick={() => { this.getUserInfo() }} onGetUserInfo={() => { this.getUserInfo() }}>登录/注册 {">"}</Button>
-        <View class="user">点击登录查看你的会员等级</View>
-      </View>
+      <>
+        {
+
+          this.state.canIUseGetUserProfile ? <View class="Button">
+            <Button onClick={() => { this.getUserProfile() }}>登录/注册 {">"}</Button>
+            <View class="user">点击登录查看你的会员等级</View>
+          </View> : <View class="Button">
+            <Button openType="getUserInfo" onClick={() => { this.getUserInfo() }} onGetUserInfo={this.getUserInfo()}>登录/注册 {">"}</Button>
+            <View class="user">点击登录查看你的会员等级</View>
+          </View>
+        }
+      </>
     )
   }
 
@@ -148,9 +252,12 @@ export default class Mine extends Component {
   }
   register = () => {
     return (
-      <Navigator class="open" url="../card/info?edit=1">
+      <Button class="open" openType="getPhoneNumber" onGetPhoneNumber={this.getPhoneNumber.bind(this)}>
         注册会员
-      </Navigator>
+      </Button>
+      // <Navigator class="open" url="/topicComponent/card/info?edit=1">
+      //   注册会员
+      // </Navigator>
     )
   }
 
@@ -193,18 +300,18 @@ export default class Mine extends Component {
         if (res.authSetting['scope.userInfo']) {
           var that = this
           // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
-          Taro.getUserInfo({
+          wx.getUserProfile({
 
             success: res => {
               //将用户名昵称和头像存入数据库
-              var openidl = Taro.getStorageSync('openid');
-              var nickName = res.userInfo.nickName;
-              var avatarUrl = res.userInfo.avatarUrl;
+              let openidl = Taro.getStorageSync('openid');
+              let nickName = res.userInfo.nickName;
+              let avatarUrl = res.userInfo.avatarUrl;
               Taro.setStorageSync('avatarUrl', res.userInfo.avatarUrl)
-              var gender = res.userInfo.gender;
-              var country = res.userInfo.country;
-              var province = res.userInfo.province;
-              var city = res.userInfo.city;
+              let gender = res.userInfo.gender;
+              let country = res.userInfo.country;
+              let province = res.userInfo.province;
+              let city = res.userInfo.city;
               if ("" != avatarUrl && "" != nickName && this.state.count == 1) {
                 Taro.request({
                   url: url + '/UserInfo/updateUserInfo',
@@ -242,6 +349,13 @@ export default class Mine extends Component {
     })
   }
 
+
+  componentWillUnmount = () => {
+    this.setState = (state, callback) => {
+      return;
+    };
+  }
+
   render() {
     return (
       <View>
@@ -254,7 +368,7 @@ export default class Mine extends Component {
               </View>
               {/* V蓝卡 START */}
               <View class="blueCard">
-                <Navigator class="setUp" url={(!this.state.hasUserInfo && this.state.canIUse) ? '#' : '/pages/card/card'}>
+                <Navigator class="setUp" url={(!this.state.hasUserInfo && this.state.canIUse) ? '#' : '/topicComponent/card/card'}>
                   {
                     <Image src={(!this.state.hasUserInfo && this.state.canIUse) ?
                       JSON.parse(getStorageSync('cardRule')[2].content).card_status1 :
@@ -266,15 +380,15 @@ export default class Mine extends Component {
                     this.state.userMeta.card == 1 ? <View>Blue Card</View> : null
                   }
                 </Navigator>
-                <View class={(!this.state.hasUserInfo && this.state.canIUse) ? 'top_View2' : 'top_View'}>
+                <View class={(!getStorageSync('hasUserInfo') && this.state.canIUse) ? 'top_View2' : 'top_View'}>
                   <Image class="avatar" src={getStorageSync('userInfo').avatar}></Image>
                   <View class="nick">
                     {
-                      (!this.state.hasUserInfo && this.state.canIUse) ? this.ButtonIsShow() : null
+                      (!getStorageSync('hasUserInfo') && this.state.canIUse) ? this.ButtonIsShow() : null
                     }
 
                     {
-                      (!this.state.hasUserInfo && this.state.canIUse) ? null : this.nickGrade()
+                      (!getStorageSync('hasUserInfo') && this.state.canIUse) ? null : this.nickGrade()
                     }
                   </View >
                 </View >
@@ -324,19 +438,19 @@ export default class Mine extends Component {
               {/* 订单 START */}
               <View class="list">
                 <View class="list_content">
-                  <Navigator class="item" url="/pages/pagePay/order/order?orderStatus=1">
+                  <Navigator class="item" url="/pagePay/order/order?orderStatus=1">
                     <Image src={toBePaid}></Image>
                     <View>待付款</View>
                   </Navigator>
-                  <Navigator class="item" url="/pages/pagePay/order/order?orderStatus=2">
+                  <Navigator class="item" url="/pagePay/order/order?orderStatus=2">
                     <Image src={paid}></Image>
                     <View>已付款</View>
                   </Navigator>
-                  <Navigator class="item" url="/pages/pagePay/order/order?orderStatus=3">
+                  <Navigator class="item" url="/pagePay/order/order?orderStatus=3">
                     <Image src={evaluate}></Image>
                     <View>待评价</View>
                   </Navigator>
-                  <Navigator class="item" url="/pages/pagePay/order/order?orderStatus=4">
+                  <Navigator class="item" url="/pagePay/order/order?orderStatus=4">
                     <Image src={aftermarket}></Image>
                     <View>退售后</View>
                   </Navigator>
@@ -348,7 +462,7 @@ export default class Mine extends Component {
               <View class="list2">
                 {
                   this.state.navigation_icon1.map((item, index) => {
-                    
+
                     return (
                       <View class="list_content" key={index}>
                         <Navigator class="item" url={item.navigationUrl}>

@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import Taro, { getFileInfo, setStorageSync } from '@tarojs/taro';
+import Taro, { getFileInfo, setStorageSync, getStorageSync } from '@tarojs/taro';
 import url from '../src/config/api'
 import { set as setGlobalData, get as getGlobalData } from '../src/config/global_data'
 import './app.less';
@@ -16,6 +16,7 @@ class App extends Component {
     });
 
     setGlobalData('userInfo', null)
+    setStorageSync('hasUserInfo', false)
 
     Taro.login({
       success: (res) => {
@@ -31,7 +32,6 @@ class App extends Component {
               'Content-Type': 'application/json'
             },
           }).then(res => {
-            console.log(res)
             setStorageSync('openid', res.data.data.account.openId)
             setGlobalData('openid', res.data.data.account.openId)
           })
@@ -41,63 +41,6 @@ class App extends Component {
       }
     })
 
-    if (getGlobalData('hasUserInfo')) {
-      Taro.getUserInfo({
-        success: (res) => {
-          console.log(res)
-          if (res.errMsg == "getUserInfo:ok") {
-            setGlobalData('userInfo', res.userInfo)
-            // setStorageSync('userInfo', res.userInfo)
-          }
-        }
-      })
-    }
-
-    // 获取用户信息   
-    Taro.getSetting({
-      success: res => {
-        if (res.authSetting['scope.userInfo']) {
-          // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
-          Taro.getUserInfo({
-            success: res => {
-              //将用户名昵称和头像存入数据库
-              let openidl = Taro.getStorageSync('openid');
-              Taro.setStorageSync('userInfo', res.userInfo)
-              let nickName = res.userInfo.nickName;
-              let avatarUrl = res.userInfo.avatarUrl;
-              Taro.setStorageSync('avatarUrl', res.userInfo.avatarUrl)
-              let gender = res.userInfo.gender;
-              let country = res.userInfo.country;
-              let province = res.userInfo.province;
-              let city = res.userInfo.city;
-              if ("" != avatarUrl && "" != nickName && this.state.count == 1) {
-                Taro.request({
-                  url: url + '/UserInfo/updateUserInfo',
-                  data: {
-                    openid: openidl,
-                    nick: nickName,
-                    avatar: avatarUrl,
-                    gender: gender,
-                    country: country,
-                    province: province,
-                    city: city
-                  },
-                  method: "POST",
-                  header: {//接口返回的数据类型，可以直接解析数据
-                    'Content-Type': 'application/json'
-                  },
-                }).then(
-                  res => {
-                    setStorageSync('accountInfo', res.data.data)
-                    setGlobalData('accountInfo', res.data.data)
-                  }
-                )
-              }
-            }
-          })
-        }
-      }
-    })
 
     Taro.request({
       url: url + '/Recharge/selectRecharge',
@@ -131,7 +74,7 @@ class App extends Component {
     let updateManager = Taro.getUpdateManager()
     updateManager.onCheckForUpdate((res) => {
       // 请求完新版本信息的回调
-      console.log(res.hasUpdate)
+      // console.log(res.hasUpdate)
     })
     updateManager.onUpdateReady(() => {
       Taro.showModal({
@@ -165,9 +108,11 @@ class App extends Component {
 
   }
 
-  componentDidHide() { }
-
-  componentDidCatchError() { }
+  componentWillUnmount() {
+    this.setState = (state,callback)=>{
+      return;
+    };
+  }
 
   // this.props.children 是将要会渲染的页面
   render() {

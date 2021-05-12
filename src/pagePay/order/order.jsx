@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Taro, { Current, getStorageSync } from '@tarojs/taro';
 import { View, Image, Text, Textarea, Icon } from '@tarojs/components';
-import url from '../../../config/api';
+import url from '../../config/api';
 import './order.less';
 
 
@@ -275,8 +275,15 @@ class Order extends Component {
     console.log(t)
     let a = t.currentTarget.dataset.index
     Taro.navigateTo({
-      url: '/pages/pagePay/orderDetail/detail?&outTradeNo=' + this.state.orderList[a].outTradeNo
+      url: '/pagePay/orderDetail/detail?&outTradeNo=' + this.state.orderList[a].outTradeNo
     })
+  }
+
+
+  componentWillUnmount = () => {
+    this.setState = (state, callback) => {
+      return;
+    };
   }
 
   render() {

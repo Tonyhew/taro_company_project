@@ -14,7 +14,7 @@ class HotTopic extends Component {
           <View>{this.props.hotTopicTitle.homeModuleName}</View>
           <View>{this.props.hotTopicTitle.subtitle != null ? this.props.hotTopicTitle.subtitle : ''}</View>
         </View>
-        <Navigator url="/pages/topic/topic?&currentTab=0">
+        <Navigator url="/topicComponent/topic/topic?&currentTab=0">
           <View class="more">更多 》</View>
         </Navigator>
         {

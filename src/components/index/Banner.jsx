@@ -8,7 +8,7 @@ class Banner extends Component {
     let t = a.currentTarget.dataset.link,
       n = a.currentTarget.dataset.appid,
       e = a.currentTarget.dataset.linkType
-    if(t == '#') {
+    if (t == '#') {
       return false
     }
     "" != n && null != n ? Taro.navigateToMiniProgram({
@@ -47,8 +47,16 @@ class Banner extends Component {
         {
           this.props.banner.map((banner) => {
             return (
-              <SwiperItem class="banner_item" key={banner.id}>
-                <Image src={banner.bimg} onClick={this.link.bind(this)} data-link={banner.link} data-linkType='1' mode="aspectFit" class="slide-image"></Image>
+              <SwiperItem
+                class="banner_item"
+                key={banner.id}>
+                <Image
+                  src={banner.bimg}
+                  onClick={this.link.bind(this)}
+                  data-link={banner.link}
+                  data-linkType='1'
+                  mode="aspectFit"
+                  class="slide-image"></Image>
               </SwiperItem>
             )
           })

@@ -18,10 +18,10 @@ class Popular extends Component {
                   <View class={seasonImg.className}>
                     <View>
                       {seasonImg.pictureLabelOne}
-				            </View>
+                    </View>
                     <View>
                       {seasonImg.pictureLabelTwo != null ? seasonImg.pictureLabelTwo : ''}
-				            </View>
+                    </View>
                     <Image src={seasonImg.pictureUrl}></Image>
                   </View>
                 </Navigator>

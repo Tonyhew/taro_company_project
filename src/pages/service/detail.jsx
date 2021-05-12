@@ -42,15 +42,16 @@ class Detail extends Component {
     banner: [],
     beautyList: [],
     choiceList: [],
+    discussList: [],
+    guaranteeStatus: [],
   }
 
   componentDidShow() {
-    console.log(Current.router.params.id)
+
     Taro.request({
       method: 'GET',
       url: url + '/BeautyProject/selectBeautyProjectById?id=' + Current.router.params.id
     }).then((res) => {
-      console.log(res)
       var t = res.data;
       var that = this
       if ("" != t.data) {
@@ -84,15 +85,61 @@ class Detail extends Component {
         beautyList: t.data,
         choiceList: t.data.beautyProjectChoiceList[0],
       })
-    }).catch((err) => {
-      console.log(err)
     })
+
+    // 获取评论信息
+    Taro.request({
+      url: url + '/Discuss/selectDiscuss',
+      data: {
+        pid: Current.router.params.id,
+        type: 1,
+        status: 1,
+        pageIndex: 0,
+        pageSize: 5
+      },
+      method: "POST",
+      header: { //接口返回的数据类型，可以直接解析数据
+        'Content-Type': 'application/json'
+      },
+    }).then(
+      res => {
+        console.log(res)
+
+        for (let L = 0; L < res.data.data.length; L++) {
+          if (res.data.data[L].imgs != null) {
+            res.data.data[L].imgs = JSON.parse(res.data.data[L].imgs);
+          }
+          if (res.data.data[L].content.length > 84) {
+            res.data.data[L].num = 1;
+          } else {
+            res.data.data[L].num = 2;
+          }
+        }
+
+        this.setState({
+          discussList: res.data.data
+        })
+
+      }
+    )
+
+    // 模块管理
+    let homeModuleList = Taro.getStorageSync('homeModuleList')
+    this.setState({
+      guaranteeStatus: homeModuleList[12]
+    })
+
+
+
   }
 
 
 
   componentWillUnmount() {
-    clearInterval(dd)
+    clearInterval(dd);
+    this.setState = (state, callback) => {
+      return;
+    };
   }
 
   ms = () => {
@@ -197,65 +244,111 @@ class Detail extends Component {
           </View>
         </View>
 
-        <View class="commodityGuarantee">
+        {/* <View class="commodityGuarantee">
           <Text class="punctuation"></Text>
           <Text class="guaranteeName">颌面专家</Text>
           <Text class="punctuation"> </Text>
           <Text class="guaranteeName">院长面诊</Text>
           <Text class="punctuation"></Text>
           <Text class="guaranteeName">纯韩颌面专家团</Text>
-        </View>
-        <View class="guarantee">
-          <Image src={relieved}></Image>
-          <Text class="punctuation"></Text>
-          <Text class="guaranteeName" style="font-weight: bold;">安心购</Text>
-          <Text class="punctuation"></Text>
-          <Text class="guaranteeName">颜值精选</Text>
-          <Text class="punctuation"></Text>
-          <Text class="guaranteeName">安心服务</Text>
-          <Text class="punctuation"></Text>
-          <Text class="guaranteeName">极速审核</Text>
-        </View>
-        <View class="discuss">
-          <View class="discussNumber">
-            <View></View>
-            <View>用户评论</View>
-            {/* <View>{count ? count : 0}人</View> */}
-          </View>
-          <View class="discussDetail">
-            <View class="user">
-              <Image src="{{item.avatar}}"></Image>
-              <View class="name">item.nick </View>
-              {/* <!--星星评价--> */}
-              <View class="comment1-description">
-                <View class="star-pos">
-                  <View class="starsM  {{flag2>=1? '': 'hideStar'}}" bindtap="changeColor11"></View>
-                  <View class="starsM  {{flag2>=2? '': 'hideStar'}}" bindtap="changeColor12"></View>
-                  <View class="starsM  {{flag2>=3? '': 'hideStar'}}" bindtap="changeColor13"></View>
-                  <View class="starsM  {{flag2>=4? '': 'hideStar'}}" bindtap="changeColor14"></View>
-                  <View class="starsM  {{flag2>=5? '': 'hideStar'}}" bindtap="changeColor15"></View>
-                </View>
+        </View> */}
+
+        {
+          this.state.guaranteeStatus.status == 1 ?
+            <View class="guarantee">
+              <Image src={relieved}></Image>
+              <Text class="punctuation"></Text>
+              <Text class="guaranteeName" style="font-weight: bold;">安心购</Text>
+              <Text class="punctuation"></Text>
+              <Text class="guaranteeName">颜值精选</Text>
+              <Text class="punctuation"></Text>
+              <Text class="guaranteeName">安心服务</Text>
+              <Text class="punctuation"></Text>
+              <Text class="guaranteeName">极速审核</Text>
+            </View> : null
+        }
+
+        {
+          this.state.discussList.length > 0 ?
+            <View class="discuss">
+              <View class="discussNumber">
+                <View></View>
+                <View>用户评论</View>
+                {/* <View>{count ? count : 0}人</View> */}
               </View>
-            </View>
-            <View class="discussName">【项目】{this.state.beautyList.name}</View>
-            <View class="discussCount {{item.num==1?'textHiding':''}}">item.content</View>
-            <View>全文</View>
-            <View class="Image">
-              <View class="ImageList">
-                <Image src="{{item.imgs[0].pictureUrl}}"></Image>
-              </View>
-              <View class="ImageList">
-                <Image src="{{item.imgs[1].pictureUrl}}"></Image>
-              </View>
-              <View class="ImageList">
-                <Image src="{{item.imgs[2].pictureUrl}}"></Image>
-              </View>
-            </View>
-          </View>
-          <Navigator class="comment" url="../../pages/discuss/index?&id={{beautyProjectId.id}}">
-            <View class="discussList"> 查看更多评价 》</View>
-          </Navigator>
-        </View >
+
+              {
+                this.state.discussList.map((item, index) => {
+                  return (
+                    <View class="discussDetail" key={index}>
+                      <View class="user">
+                        <Image src={item.avatar}></Image>
+                        <View class="name">{item.nick}</View>
+                        {/* <!--星星评价--> */}
+                        <View class="comment1-description">
+                          <View class="star-pos">
+                            <View class="starsM  {{flag2>=1? '': 'hideStar'}}" onClick="changeColor11"></View>
+                            <View class="starsM  {{flag2>=2? '': 'hideStar'}}" onClick="changeColor12"></View>
+                            <View class="starsM  {{flag2>=3? '': 'hideStar'}}" onClick="changeColor13"></View>
+                            <View class="starsM  {{flag2>=4? '': 'hideStar'}}" onClick="changeColor14"></View>
+                            <View class="starsM  {{flag2>=5? '': 'hideStar'}}" onClick="changeColor15"></View>
+                          </View>
+                        </View>
+                      </View>
+                      <View class="discussName">【项目】{this.state.beautyList.name}</View>
+                      <View class="discussCount {{item.num==1?'textHiding':''}}">{item.content}</View>
+                      <View>全文</View>
+                      <View class="Image">
+                        <View class="ImageList">
+                          <Image src={item.imgs[0].pictureUrl}></Image>
+                        </View>
+                        <View class="ImageList">
+                          <Image src={item.imgs[1].pictureUrl}></Image>
+                        </View>
+                        <View class="ImageList">
+                          <Image src={item.imgs[2].pictureUrl}></Image>
+                        </View>
+                      </View>
+                    </View>
+                  )
+                })
+              }
+
+              {
+                this.state.discussList.length >= 5 ?
+                  <Navigator class="comment" url={"../../pages/discuss/index?&id=" + this.state.beautyList.id}>
+                    <View class="discussList"> 查看更多评价 》</View>
+                  </Navigator> : null
+              }
+
+            </View> : null
+        }
+
+        {
+          // this.state.beautyList.groupStatus==1 && group_list
+          // <view class="group" wx:if="{{beautyProjectId.groupStatus==1&&group_list}}">
+          // 	<view bindtap="to_more" class="title">
+          // 		<view>以下小伙伴正在发起拼团，您可以直接参与：</view>
+          // 		<view>更多></view>
+          // 	</view>
+          // 	<view class="list">
+          // 		<view class="item" wx:for="{{group_list}}" wx:for-index="idx" wx:key="idx">
+          // 			<image src="{{item.avatar}}"></image>
+          // 			<view class="item_content">
+          // 				<view>{{item.nick}}</view>
+          // 				<view>
+          // 					<view class="item_btn">还差{{item.total-item.teamTotal}}人成团</view>
+          // 					<view class="item_times">剩余{{item.hour}}:{{item.min}}:{{item.second}}</view>
+          // 				</view>
+          // 			</view>
+          // 			<view bindtap="to_group" class="group_btn" data-index="{{idx}}" wx:if="{{item.isGroup!=1}}">参团</view>
+          // 			<view class="group_btn" wx:if="{{item.isGroup==1}}">已参</view>
+          // 		</view>
+          // 	</view>
+          // </view>
+        }
+
+
       </View >
     )
   }

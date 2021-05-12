@@ -21,12 +21,17 @@ class Environment extends Component {
           <View>{this.props.environmentTitle.homeModuleName}</View>
           <View>{this.props.environmentTitle.subtitle != null ? this.props.environmentTitle.subtitle : ''}</View>
         </View>
-        <Swiper autoplay interval={5000} circular previous-margin="80rpx" next-margin="80rpx" onChange={this.handleChange}>
+        <Swiper autoplay interval={5000} circular previous-margin="80rpx" next-margin="80rpx" onChange={this.handleChange.bind(this)}>
           {
             this.props.environmental.map((envir, index) => {
               return (
                 <SwiperItem key={index}>
-                  <Image src={envir.pictureUrl} class={classNames('slide-image', this.state.currentIndex == index ? 'active' : '')} />
+                  {
+                    this.state.currentIndex == index ?
+                      <Image src={envir.pictureUrl} className={classNames('slide-image', 'active')} /> :
+                      <Image src={envir.pictureUrl} className={classNames('slide-image')} />
+                  }
+
                 </SwiperItem>
               )
             })
